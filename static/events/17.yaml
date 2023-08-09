@@ -1,0 +1,8 @@
+# Result event: Onsite interview additional rounds.
+event:
+  id: 17
+  descriptions:
+    - You joined the addtional interview round<br>
+      The HR emailed you that it will take several days for the result.
+  options:
+    307: Finger crossed.

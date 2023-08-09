@@ -1,0 +1,11 @@
+# End 5 - Absent in final.
+event:
+  id: 504
+  descriptions:
+    - Despite you repeatedly explain to the school how important your other thing is<br>
+      compared to the exam, they still dropped you as absence in final is an instant F.<br>
+      Those stubborn bureaucrat ruined your vacation as well as your dream as an MSCS student.<br>
+      You posted long and colorful post accuse this school in LitterRatBook and 1Point4Acres.<br>
+      But it cannot help you from being revoked from student visa and forced to go back home.
+  options:
+    100: Start a new MSCS emulator journey.

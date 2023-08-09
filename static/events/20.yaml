@@ -1,0 +1,8 @@
+# Normal event - click event: Working on intern project.
+event:
+  id: 20
+  descriptions:
+    - "You worked on the internship project assigned by your mentor.<br>
+      {{ IF normalWork }}The project progress is on track.{{ ELSE }}{{ IF highWork }}The progress exceeded your expection.{{ ELSE }}Due to various reasons, the progress is behind the expection.{{ FI }}{{ FI }}"
+  options:
+    308: "{{ IF normalWork }}Cool{{ ELSE }}{{ IF highWork }}Yeah{{ ELSE }}Feel bad{{ FI }}{{ FI }}"

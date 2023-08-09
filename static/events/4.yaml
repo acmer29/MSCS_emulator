@@ -1,0 +1,7 @@
+# Normal event - click event: Slack off
+event:
+  id: 4
+  descriptions:
+    - You stayed in apartment, watching the YeahTube and spent the time leisurely. 
+  options:
+    308: wonderful

@@ -1,0 +1,7 @@
+# Normal event - click event: Study
+event:
+  id: 1
+  descriptions:
+    - You revised the course materials, went to office hours, and more prepared for the final.
+  options:
+    308: cool

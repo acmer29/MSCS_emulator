@@ -1,0 +1,9 @@
+# Compulsory event - final
+event:
+  id: 5
+  descriptions:
+    - The end of this semester draws near, profressors have annouced the final examination date.<br>
+      And which is in this two weeks.
+  options:
+    6: Take the exam.
+    504: Nah it conflict with my flight schedule.

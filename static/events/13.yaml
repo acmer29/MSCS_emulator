@@ -1,0 +1,7 @@
+# Result event - click event - Onsite interview request accepted.
+event:
+  id: 13
+  descriptions:
+    - You replied with confirmation of the virtual onsite.
+  options:
+    307: Finger crossed.

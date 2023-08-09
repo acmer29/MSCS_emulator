@@ -1,0 +1,35 @@
+{
+  "name": "mscs_emulator",
+  "version": "1.0.0",
+  "description": "Text based emulation game of life as an alien MSCS student in US.",
+  "main": "app.js",
+  "devDependencies": {
+    "@types/node": "^20.4.5",
+    "copy-webpack-plugin": "^11.0.0",
+    "nodemon": "^3.0.1",
+    "process": "^0.11.10",
+    "terser-webpack-plugin": "^5.3.9",
+    "ts-loader": "^8.2.0",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "yaml": "^2.3.1"
+  },
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acmer29/MSCS_emulator.git"
+  },
+  "author": "Tianyu Qi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acmer29/MSCS_emulator/issues"
+  },
+  "homepage": "https://github.com/acmer29/MSCS_emulator#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

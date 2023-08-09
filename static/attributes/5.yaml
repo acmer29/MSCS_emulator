@@ -1,0 +1,17 @@
+# Attribute 5
+attribute:
+  id: 5
+  description: Normal university
+  isVisible: true
+  parameterBuffMap:
+    study: 0
+    coding: 0
+    health: 0
+    working: 0
+    interview: 0.5
+  parameterDebuffMap:
+    study: 0
+    coding: 0
+    health: 0
+    working: 0
+    interview: 0

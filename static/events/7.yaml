@@ -1,0 +1,10 @@
+# Jobhunting event - Preliminary interview request / Internship interview request.
+event:
+  id: 7
+  descriptions:
+    - "You received an email from an HR invited you for {{ IF intern }}internship{{ FI }} phone interview this week!"
+  options:
+    8: Reply yes immidiately!
+    21: Replay yes immidiately!
+    307: Nope, not ready yet.
+  probability: 1

@@ -1,0 +1,17 @@
+# Attribute 3
+attribute:
+  id: 3
+  description: Sensitive and sickly
+  isVisible: true
+  parameterBuffMap:
+    study: 0
+    coding: 0
+    health: 0
+    working: 0
+    interview: 0
+  parameterDebuffMap:
+    study: 0
+    coding: 0
+    health: 0.25
+    working: 0
+    interview: 0

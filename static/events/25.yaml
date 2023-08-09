@@ -1,0 +1,10 @@
+# Compulsory event - click event - Demo the intern project.
+event:
+  id: 25
+  descriptions:
+    - "You demonstrated your project in intern project demo meeting.<br>
+      {{ IF highWork }}Your team all presented to support you, they cheered on your accomplishment.<br>
+      You felt really grateful, and really hopes the company can give you return offer.<br>{{ FI }}
+      The HR contacted you later and said they will have the feedback in the following several weeks."
+  options:
+    308: Hope there will be good news

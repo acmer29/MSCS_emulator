@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "removeComments": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "target": "ES2021",
+        "rootDir": "./src",
+        "outDir": "./build",
+        "lib": [
+            "dom", "es7", "ES2021.Promise"
+        ],
+        "module": "NodeNext",
+    },
+    "exclude": [
+        "node_modules"
+    ],
+}

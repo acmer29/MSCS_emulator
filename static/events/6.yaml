@@ -1,0 +1,7 @@
+# Compulsory event - click event.
+event:
+  id: 6
+  descriptions:
+    - The semester ended after all the final finished.
+  options:
+    308: Let's take a break!

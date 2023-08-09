@@ -1,0 +1,10 @@
+# Result event - Onsite interview aborted.
+event:
+  id: 12
+  descriptions:
+    - The HR contacted with you about the onsite interview.<br>
+      Unfortunately, due to more than expected compatitive applicants this year,<br> 
+      they decide not move forward with your case.<br>
+      They do, however, appreciate your interest with their company.
+  options:
+    307: What the hell..

@@ -1,0 +1,17 @@
+# Attribute 10
+attribute:
+  id: 10
+  description: Have intership offer
+  isVisible: true
+  parameterBuffMap:
+    study: 0
+    coding: 0
+    health: 0
+    working: 0
+    interview: 0
+  parameterDebuffMap:
+    study: 0
+    coding: 0
+    health: 0
+    working: 0
+    interview: 0

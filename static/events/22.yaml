@@ -1,0 +1,7 @@
+# Result event - Phone interview passed.
+event:
+  id: 22
+  descriptions:
+    - Congratulations! The HR informed you that your internship interview has passed!
+  options:
+    307: Fantastic!

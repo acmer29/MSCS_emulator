@@ -1,0 +1,7 @@
+# Result event - Return offer rejected.
+event:
+  id: 28
+  descriptions:
+    - The HR contacted you that they will not move forward with your return offer.
+  options:
+    307: How unfortunate..

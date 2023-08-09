@@ -1,0 +1,10 @@
+# Compulsory event - click event - Did not join the demo event.
+event:
+  id: 26
+  descriptions:
+    - "The stressful work, and probability other activities, have drained your vigor completely<br>
+      that you even missed the entire project demo meeting.<br>
+      {{ IF highWork }}Worrying about your sanity, your manager talked with you later, comforting you that don't worry about the return offer.{{ FI }}
+      The HR contacted you later and said they will have the feedback in the following several weeks."
+  options:
+    308: Hope there will be good news..

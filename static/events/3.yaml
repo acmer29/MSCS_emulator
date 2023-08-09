@@ -1,0 +1,9 @@
+# Normal event - click event: Coding
+event:
+  id: 3
+  descriptions:
+    - You spent the time in LetsCode for code practicing.<br>
+      After coding and debugging and head stretching and keyboard punching,<br>
+      You felt your coding skill improved.
+  options:
+    308: awesome

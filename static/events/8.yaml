@@ -1,0 +1,7 @@
+# Random event - click event: Take the phone interview.
+event:
+  id: 8
+  descriptions:
+    - You finished the phone interview, HR told you to wait several days for the result.
+  options:
+    308: Finger crossed..

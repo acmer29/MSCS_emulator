@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="acmer29">
+    <title>MSCS Simulator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+</head>
+<body>
+    <div id="game-window" class="container">
+        <div class="top-panel">
+            <div id="parameter-window">
+                <div id="study-window">
+                    Study <span id="study-value-span"></span>
+                </div>
+                <div id="scores-window">
+                    Grade <span id="scores-value-span"></span>
+                </div>
+                <div id="coding-window">
+                    Coding <span id="coding-value-span"></span>
+                </div>
+                <div id="health-window">
+                    Sanity <span id="health-value-span"></span>
+                </div>
+            </div>
+            <div id="time-window">
+                Current Time
+                <p id="time-value-box"></p>
+            </div>
+        </div>
+        <div id="event-window" class="middle-panel">
+            <div id="event-message-window">
+                <p id="event-message-box"></p>
+            </div>
+            <div id="event-option-window">
+            </div>
+        </div>
+        <div class="bottom-panel">
+            <div>
+                Attribute
+                <div id="attribute-window"></div>
+            </div>
+        </div>
+    </div>
+    <script src="/bundle.js"></script>
+</body>
+</html>
