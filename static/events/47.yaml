@@ -1,0 +1,10 @@
+# Random event - Join the weekly coding contest.
+event:
+  id: 47
+  descriptions:
+    - "You joined the weekly coding contest of letscode in this week.<br>
+      {{ IF goodRank }}You crushed the problems and got a good rank.
+      {{ ELSE }}You have no idea to those problems and got a poor rank
+      {{ FI }}"
+  options:
+    307: "{{ IF goodRank }}Nicely done.{{ ELSE }}I will definitely do better next time.{{ FI }}"

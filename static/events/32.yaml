@@ -1,0 +1,9 @@
+# Random event - Group study request.
+event:
+  id: 32
+  descriptions:
+    - "Your classmates invited you to join them group working on the current homework."
+  options:
+    33: Here I come.
+    34: You guys just want me to carry huh?
+    35: "I'm so nervrous, I just want to stay at home."

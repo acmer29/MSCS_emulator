@@ -1,8 +1,0 @@
-# Test event
-event:
-  id: 404
-  descriptions:
-    - Description 1
-    - Description 2
-  options:
-    404: This event

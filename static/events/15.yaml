@@ -2,9 +2,9 @@
 event:
   id: 15
   descriptions:
-    - Congratulations, you are doing a great job in the onsite!
-      However, the recruiter thinks that an additional round is needed to help to make the decision.
-      The HR contacts you asking if you want to schedule the additional round interview?
+    - Congratulations, you did a great job in the onsite with {{ companyName }}!
+      However, the recruiter thought that an additional round is needed to help to make the decision.
+      The HR contacted you, asking if you want to schedule the additional round interview?
   options:
     16: Gladly! Let's schedule it ASAP!
     307: Hell no! I have had enough!

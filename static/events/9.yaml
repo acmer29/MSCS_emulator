@@ -2,7 +2,7 @@
 event:
   id: 9
   descriptions:
-    - Congratulations! The HR informed you that your phone interview has passed.<br>
+    - Congratulations! The HR from {{ companyName }} informed you that your phone interview has passed.<br>
       They will be coordinating with you about the next step very soon.
   options:
     307: Fantastic!

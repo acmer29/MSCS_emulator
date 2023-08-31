@@ -1,0 +1,16 @@
+# Random event - Insomina.
+event:
+  id: 42
+  descriptions:
+    - "{{ IF inSemester }}After a hardworking day,{{ FI }}
+      {{ IF inWork }}After a stressful day of intern working,{{ FI }}
+      {{ IF inRest }}Just a normal vecation day{{ FI }}
+      you went to bed after scrolled smart phone for almost an hour<br>
+      You then found your mind is incredibly consious and every brain cell refused to go to sleep.<br>
+      You stayed awake till morning twilight shined in.<br>
+      You felt both physically and emotionally damaged. 
+      {{ IF inSemester }}Yet you have to get up and go to school.{{ FI }}
+      {{ IF inWork }}Yet you have to get up and go to work.{{ FI }}
+      {{ IF inRest }}Fortunately, you can have some extra rest time as you are in an ideling vecation.{{ FI }}"
+  options:
+    307: "How unfortunate.."

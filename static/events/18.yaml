@@ -2,7 +2,7 @@
 event:
   id: 18
   descriptions:
-    - Congratulations! You passed the onsite interview with flying colors!
+    - Congratulations! You passed the onsite interview of {{ companyName }} with flying colors!
       The HR will email you the offical offer letter and onboarding packet in the next one or two business days.
   options:
     307: WHAT A MIGHTY TRIUMPH!

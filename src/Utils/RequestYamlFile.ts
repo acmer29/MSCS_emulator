@@ -9,7 +9,7 @@ export async function requestYamlFile(path: string): Promise<any> {
                 if (xhr.status == 200){
                     resolve(parse(xhr.responseText));                    
                 } else {
-                    reject(new Error('Error status: ' + xhr.statusText));
+                    reject(new Error("In requesting " + path + " Error status: " + xhr.statusText));
                 }
             }
         };

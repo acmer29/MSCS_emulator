@@ -1,0 +1,9 @@
+# Random event - click event - Join the group study.
+event:
+  id: 33
+  descriptions:
+    - "You accepted the invitation and joined the group study.<br>
+      With each of you worked on one part of the assignment, a 5-day dued assignment finished within a single night.<br>
+      You won several days free time for resting, and a nice grade on the assignment"
+  options:
+    307: Nice!

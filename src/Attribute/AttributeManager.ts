@@ -1,4 +1,3 @@
-import { EventEmitter } from "stream";
 import { PERSISTENT_HANDLER_MAP, TRIGGER_HANDLER_MAP } from "../Constant/AttributeConstants";
 import { Player } from "../Player/Player";
 import { Attribute } from "./Attribute";
@@ -32,17 +31,17 @@ export class AttributeManager {
         let res: number = delta;
         for (let attribute of this._activatedAttribute) {
             if (TRIGGER_HANDLER_MAP.get(attribute.id)!(type, eventId)) {
-                console.log("Attribute " + attribute.description + " triggered");
+                // console.log("Attribute " + attribute.description + " triggered");
                 if (delta > 0) {
-                    console.log("affecting buff map ");
+                    // console.log("affecting buff map ");
                     console.log(attribute.parameterBuffMap);
                     res += finalizeParameterDelta(delta, type, attribute.parameterBuffMap);
                 } else if (delta < 0) {
-                    console.log("affecting debuff map ");
+                    // console.log("affecting debuff map ");
                     console.log(attribute.parameterDebuffMap);
                     res += finalizeParameterDelta(delta, type, attribute.parameterDebuffMap);
                 }
-                console.log("Corrected " + res);
+                // console.log("Corrected " + res);
             }
         }
         console.log("Finalized parameter " + type + " to " + res);
@@ -71,7 +70,7 @@ export class AttributeManager {
             } else {
                 reject();
             }
-        })
+        });
     }
 
     updateActivatedAttributes(player: Player, reset: boolean = false) {

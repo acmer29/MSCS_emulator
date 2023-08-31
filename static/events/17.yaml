@@ -2,7 +2,7 @@
 event:
   id: 17
   descriptions:
-    - You joined the addtional interview round<br>
+    - You joined the addtional interview round with {{ companyName }}.<br>
       The HR emailed you that it will take several days for the result.
   options:
     307: Finger crossed.

@@ -1,0 +1,17 @@
+# Attribute 14.
+attribute:
+  id: 14
+  description: Nerd
+  isVisible: true
+  parameterBuffMap:
+    study: 0.2
+    coding: 0.2
+    health: 0
+    working: 0
+    interview: 0
+  parameterDebuffMap:
+    study: 0
+    coding: 0
+    health: 0.1
+    working: 0
+    interview: 0

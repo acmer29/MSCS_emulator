@@ -11,5 +11,10 @@ export async function parseEvent(eventId: number): Promise<Event> {
         let stringVar: string = typeof value === "string" ? value : "";
         optionMap.set(numericKey, stringVar);
     }
-    return new Event(yamlObject.event.id, yamlObject.event.descriptions, optionMap);
+
+    let rarity: number = 0;
+    if (yamlObject.event.rarity !== undefined) {
+        rarity = +(yamlObject.event.rarity);
+    }
+    return new Event(yamlObject.event.id, yamlObject.event.descriptions, optionMap, rarity);
 }

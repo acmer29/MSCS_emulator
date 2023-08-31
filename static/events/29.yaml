@@ -1,0 +1,8 @@
+# Random event - Career fair.
+event:
+  id: 29
+  descriptions:
+    - "You received email from EECS department that they are going to hold a career fair this week!"
+  options:
+    30: Suit up and join.
+    31: You know these companies are not mean to hire in this career fair right?

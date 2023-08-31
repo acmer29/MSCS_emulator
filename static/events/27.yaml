@@ -2,6 +2,6 @@
 event:
   id: 27
   descriptions:
-    - Congratulations! The HR contacted you that a return offer have been extended!
+    - Congratulations! The HR from {{ companyName }} contacted you that a return offer have been extended!
   options:
     307: MY HARDWORK PAID OFF!!

@@ -2,7 +2,7 @@
 event:
   id: 11
   descriptions:
-    - The HR contacted with you about the onsite interview.<br>
+    - The HR from {{ companyName }} contacted with you about the onsite interview.<br>
       The interview has been scheduled on the next month, no reschedule available so far.<br>
       Meanwhile, due to cost cutting, the onsite interview has been changed to virtual onsite.
   options:

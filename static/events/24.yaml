@@ -4,7 +4,7 @@ event:
   descriptions:
     - Your summer internship ends near.<br>
       Your mentor invites you to join the intern project demonstration meeting.
-      Where the people on the high table will determine if a return offer will be extended.
+      Where the people on the high table will determine if a return offer will be extended for you.
   options:
     25: Join and demonstrate
     26: Oops I get up late..

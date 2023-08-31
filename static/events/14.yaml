@@ -2,7 +2,7 @@
 event:
   id: 14
   descriptions:
-    - It's time for virtual onsite. You joined the 5-round interview.<br>
+    - It's time for virtual onsite with {{ companyName }}. You joined the 5-round interview.<br>
       With 1 round behavior and 4 rounds of coding.<br>
       The HR emailed you that they will have the feedback and share with you in several days.
   options:

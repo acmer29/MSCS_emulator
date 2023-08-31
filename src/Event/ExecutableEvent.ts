@@ -3,9 +3,9 @@ import { Player } from "../Player/Player";
 
 export class ExecutableEvent {
     private _event: Event;
-    private _handler: (player: Player) => Promise<Map<string, string>>;
+    private _handler: (player: Player, context: any) => Promise<Map<string, string>>;
 
-    constructor(event: Event, handler: (player: Player) => Promise<Map<string, string>>) {
+    constructor(event: Event, handler: (player: Player, context: any) => Promise<Map<string, string>>) {
         this._event = event;
         this._handler = handler;
     }
@@ -18,7 +18,7 @@ export class ExecutableEvent {
         return this._event;
     }
 
-    set handler(value: (player: Player) => Promise<Map<string, string>>) {
+    set handler(value: (player: Player, context: any) => Promise<Map<string, string>>) {
         this._handler = value;
     }
 

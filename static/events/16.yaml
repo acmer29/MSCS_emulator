@@ -2,7 +2,7 @@
 event:
   id: 16
   descriptions:
-    - The addtional interview has been scheduled for the next month.<br>
-      You asked if there is any eariler slot available, the HR did not reply to you.
+    - Your addtional interview with {{ companyName }} has been scheduled for the next month.<br>
+      You then asked their HR if there is any eariler slot available, they did not reply you.
   options:
     307: Got it.

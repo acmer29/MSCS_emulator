@@ -4,14 +4,14 @@ attribute:
   description: Have offer letter
   isVisible: true
   parameterBuffMap:
-    study: 0
-    coding: 0
-    health: 0
+    study: -0.1
+    coding: -0.5
+    health: 0.5
     working: 0
     interview: 0
   parameterDebuffMap:
     study: 0
     coding: 0
-    health: 0
+    health: -0.5
     working: 0
     interview: 0

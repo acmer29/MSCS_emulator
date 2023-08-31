@@ -2,6 +2,6 @@
 event:
   id: 21
   descriptions:
-    - You finished the internship phone interview, HR told you to wait several days for the result.
+    - You finished the internship phone interview with {{ companyName }}, HR told you to wait several days for the result.
   options:
     308: Cool.

@@ -1,6 +1,9 @@
 import { PlayerStatus } from "./PlayerConstants";
 
-export const RANDOM_EVENT_IDS: number[] = [];
+export const RANDOM_EVENT_IDS: number[] = [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
+export const SEMASTER_ONLY_RANDOM_START_EVENT_ID: number[] = [29, 32, 36, 38, 39, 40, 48];
+export const INTERN_ONLY_RANDOM_START_EVENT_ID: number[] = [44, 45];
+export const ALL_TIME_RANDOM_START_EVENT_ID: number[] = [];
 
 export const RESULT_EVENT_IDS: number[] = [9, 10, 11, 12];
 
@@ -15,7 +18,6 @@ export const RETURN_OFFER_EVAL_START_EVENT_ID = 24;
 export const JOBHUNTING_EVENT_ID: number = 7;
 
 export const IN_PHASE_END_EVENT_ID: number = 307;
-
 export const PHASE_END_EVENT_ID: number = 308;
 
 export const UNEXECUTABLE_EVENT_IDS = [307, 308];

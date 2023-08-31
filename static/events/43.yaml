@@ -1,0 +1,11 @@
+# Random event - Eat outside.
+event:
+  id: 43
+  descriptions:
+    - "You decided to eat outside in a nearby Chinese restaurant today, instead of cooking at home.<br>
+      {{ IF eatGood }}The food was nice and you had an enjoyful meal.
+      {{ ELSE }}The taste of food was trash and seemed even unwashed before cooking.<br>
+      You got sick shortly after you went home. 
+      {{ FI }}"
+  options:
+    307: "{{ IF eatGood }}Nice meal!{{ ELSE }}Will never come back again..{{ FI }}"

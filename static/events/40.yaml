@@ -1,0 +1,18 @@
+# Random event - Submitted assigment with wrong file.
+event:
+  id: 40
+  descriptions:
+    - "After finished a large project assignment, you packed up the files and submitted the assignment.<br>
+      However, after a few days you saw the assignment grade is 0.<br>
+      You then found that you only packed up some useless output file instead of the code carelessly.<br>
+      In despair, you came to the professor's office and try to explain.<br>
+      {{ IF highStudy }}Fortunately, as you were pretty familiar with the professor, the professor comforted you <br>
+      and give you a second chance to re-submit your work.<br>
+      You did not mess it up this time and the corrected grade is as high as it should be.<br>
+      Though the accident ended up with narrow escape, you still emotionally damaged a bit.
+      {{ ELSE }}The professor first had a bit difficulty remember who you are.<br>
+      And then told you that all submissions are final, they can help nothing on this.<br>
+      And, nonetheless, hope you can do better in the next assignment.
+      {{ FI }}"
+  options:
+    307: "{{ IF highStudy }}My heart cannot endure this once more..{{ ELSE }}How unfortunate..{{ FI }}"

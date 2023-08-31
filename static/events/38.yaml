@@ -1,0 +1,12 @@
+# Random event - Teammate sucks in presentation.
+event:
+  id: 38
+  descriptions:
+    - "During the presentation of one of the class this week, your teammate seems under prepared.<br>
+      {{ IF highStudy }}Thanks your extra preparation, you carried the their part and saved your team's presentation.<br>
+      The professor gave you extra credit as your performance exceeded the expectation.
+      {{ ELSE }}Though you did your part, the final score is still very low.<br>
+      You felt desprately helpless, seeing your effort ruined by the mistake of somebody else.
+      {{ FI }}"
+  options:
+    307: "{{ IF highStudy }}Easy day!{{ ELSE }}How did that crap got admitted?{{ FI }}"

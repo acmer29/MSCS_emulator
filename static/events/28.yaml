@@ -2,6 +2,6 @@
 event:
   id: 28
   descriptions:
-    - The HR contacted you that they will not move forward with your return offer.
+    - The HR from {{ companyName }} contacted you that they will not move forward with your return offer with {{ companyName }}.
   options:
     307: How unfortunate..

@@ -1,0 +1,13 @@
+# Random event - click event - Did not join career fair.
+event:
+  id: 31
+  descriptions:
+    - "You decided not to join the career fair, which should be just a waste of time.
+      {{ IF goodPlace }}<br>However that is untrue, you saw your friends shared their experience on the career fair event,<br>
+      that how many opportunities they got, and some even got interview right afterwards.<br>
+      You start to regret on that bad decision, but this helps nothing.
+      {{ ELSE }}<br>And yes your are correct, those went to that career fair got nothing but waste several valuable hours in their life.<br>
+      You got some good rest at home, watched animes and played GirlsFrontline, where the moe girls cured your heart.
+      {{ FI }}"
+  options:
+    307: "{{ IF goodPlace }}That is a big mistake{{ ELSE }}Cozy{{ FI }}"

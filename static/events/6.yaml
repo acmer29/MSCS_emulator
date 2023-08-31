@@ -2,6 +2,10 @@
 event:
   id: 6
   descriptions:
-    - The semester ended after all the final finished.
+    - "You took the final on three subjects, the transcript is as below:<br>
+      {{ subject1 }}
+      {{ subject2 }}
+      {{ subject3 }}
+      The semester ended after all the final finished."
   options:
     308: Let's take a break!
