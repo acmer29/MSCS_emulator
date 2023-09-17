@@ -1,8 +1,8 @@
-import { PERSISTENT_HANDLER_MAP, TRIGGER_HANDLER_MAP } from "../Constant/AttributeConstants";
+import { PERSISTENT_HANDLER_MAP, TRIGGER_HANDLER_MAP } from "./AttributeConstants";
 import { Player } from "../Player/Player";
 import { Attribute } from "./Attribute";
 import { finalizeParameterDelta } from "./AttributeHelper";
-import { parseAttribute } from "./AttributeParser";
+import { ATTRIBUTE_TEXT_MAP } from "./Static/AttributeTexts";
 
 export class AttributeManager {
     private _activatedAttribute: Attribute[];
@@ -52,25 +52,33 @@ export class AttributeManager {
         this._activatedAttribute = this._activatedAttribute.filter(attribute => !ids.includes(attribute.id));
     }
 
-    async activateAttribute(ids: number[]): Promise<void> {
-        let done: number = 0;
-        for(let id of ids) {
-            if (this._activatedAttribute.filter(attribute => attribute.id == id).length == 0) {
-                await parseAttribute(id.toString()).then((attribute) => {
-                    this._activatedAttribute.push(attribute);
-                    done += 1;
-                });
-            } else {
-                done += 1;
+    activateAttribute(ids: number[]): void {
+        for (let id of ids) {
+            if (this._activatedAttribute.filter(attribute => attribute.id == id).length != 0) {
+                continue;
             }
+            let attributeRaw = ATTRIBUTE_TEXT_MAP.get(id)!;
+            let title: string = attributeRaw[0];
+            let isVisible: boolean = attributeRaw[1];
+            let buffMapRaw: number[] = attributeRaw[2];
+            let buffMap: Map<string, number> = new Map<string, number>([
+                ["study", buffMapRaw[0]],
+                ["coding", buffMapRaw[1]],
+                ["health", buffMapRaw[2]],
+                ["working", buffMapRaw[3]],
+                ["interview", buffMapRaw[4]],
+            ]);
+            let debuffMapRaw: number[] = attributeRaw[3];
+            let debuffMapMap: Map<string, number> = new Map<string, number>([
+                ["study", debuffMapRaw[0]],
+                ["coding", debuffMapRaw[1]],
+                ["health", debuffMapRaw[2]],
+                ["working", debuffMapRaw[3]],
+                ["interview", debuffMapRaw[4]],
+            ]);
+            let attribute: Attribute = new Attribute(id, title, isVisible, buffMap, debuffMapMap);
+            this._activatedAttribute.push(attribute);
         }
-        return new Promise<void>((resolve, reject) => {
-            if (done == ids.length) {
-                resolve();
-            } else {
-                reject();
-            }
-        });
     }
 
     updateActivatedAttributes(player: Player, reset: boolean = false) {

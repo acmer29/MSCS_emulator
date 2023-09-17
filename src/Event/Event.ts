@@ -1,30 +1,36 @@
+import { Player } from "../Player/Player";
+
 export class Event {
     private _id: number;
-    private _descriptions: string[];
-    private _options: Map<number, string>;
-    private _rarity: number;
+    private _description: string;
+    private _options: Map<number, string>; 
+    private _handler: (player: Player, context: any) => Map<string, string>;
 
     constructor(
-        id: number, 
-        descriptions: string[], 
-        options: Map<number, string>, 
-        rarity: number = 0) {
+        id: number,
+        description: string,
+        options: Map<number, string>,
+        handler: (player: Player, context: any) => Map<string, string>) {
         this._id = id;
-        this._descriptions = descriptions;
+        this._description = description;
         this._options = options;
-        this._rarity = rarity;
+        this._handler = handler;
+    }
+
+    set id(value: number) {
+        this._id = value;
     }
 
     get id() {
         return this._id;
     }
 
-    set descriptions(value: string[]) {
-        this._descriptions = value;
+    set description(value: string) {
+        this._description = value;
     }
 
-    get descriptions() {
-        return this._descriptions;
+    get description() {
+        return this._description;
     }
 
     set options(value: Map<number, string>) {
@@ -35,11 +41,11 @@ export class Event {
         return this._options;
     }
 
-    set rarity(value: number) {
-        this._rarity = value;
+    set handler(value: (player: Player, context: any) => Map<string, string>) {
+        this._handler = value;
     }
 
-    get rarity() {
-        return this._rarity;
+    get handler() {
+        return this._handler;
     }
 }

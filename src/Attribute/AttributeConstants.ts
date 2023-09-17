@@ -1,5 +1,5 @@
 import { Player } from "../Player/Player";
-import { SUMMER_I_ROUNDS } from "./RoundConstants";
+import { SUMMER_I_ROUNDS } from "../Game/RoundConstants";
 
 export const GIFTED_ATTRIBUTE_IDS: number[] = [0, 1, 2, 3, 4, 6, 7, 8, 9, 14, 15];
 export const PERSONAILITY_ATTRIBUTE_IDS: number[] = [14, 15];

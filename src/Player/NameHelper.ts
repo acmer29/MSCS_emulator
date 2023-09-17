@@ -1,18 +1,13 @@
-import { requestYamlFile } from "../Utils/RequestYamlFile";
 import { getRandomInt } from "../Utils/Rng";
 
 export class NameHelper {
-    private _staticNames: string[] = [];
+    private _staticNames: string[];
     private _names: string[] = [];
     private _usedNameMap: Map<number, string>;
 
-    constructor() {
-        this._usedNameMap = new Map<number, string>();
-    }
-
-    async init(fileName: string) {
-        await this.parseNames(fileName);
-        this.reset();
+    constructor(nameSource: string[]) {
+        this._staticNames = nameSource;
+        this._usedNameMap = new Map<number, string>;
     }
 
     reset(): void {
@@ -40,18 +35,5 @@ export class NameHelper {
             console.log("Name not exist for id " + id);
             return "";
         }
-    }
-
-    private async parseNames(name: string): Promise<void> {
-        let fileName = "/miscellaneous/" + name + ".yaml";
-        let yamlObject = await requestYamlFile(fileName);
-        this._staticNames = yamlObject.names;
-        return new Promise<void>((resolve, reject) => {
-            if (this._staticNames.length == Object.keys(yamlObject.names).length) {
-                resolve();
-            } else {
-                reject();
-            }
-        });
     }
 }

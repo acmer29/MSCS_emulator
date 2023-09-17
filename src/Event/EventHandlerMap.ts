@@ -1,14 +1,14 @@
-import { GIFTED_ATTRIBUTE_IDS, MUTURAL_EXCLUSIVE_ATTRIBUTE_GROUPS } from "../Constant/AttributeConstants";
-import { isInVacation } from "../Constant/CalendarConstants";
-import { INITIAL_CODING_VALUE, INITIAL_CODING_VALUE_HIGH, INITIAL_HEALTH_VALUE, INITIAL_HEALTH_VALUE_LOW, INITIAL_INTERVIEW_PROBABILITY, INITIAL_INTERVIEW_PROBABILITY_HIGH, INITIAL_INTERVIEW_PROBABILITY_LOW, INITIAL_STUDY_VALUE, INITIAL_STUDY_VALUE_HIGH, INITIAL_STUDY_VALUE_LOW, PlayerStatus } from "../Constant/PlayerConstants";
-import { SUMMER_I_ROUNDS } from "../Constant/RoundConstants";
+import { GIFTED_ATTRIBUTE_IDS, MUTURAL_EXCLUSIVE_ATTRIBUTE_GROUPS } from "../Attribute/AttributeConstants";
+import { isInVacation } from "../Utils/Calendar";
+import { INITIAL_CODING_VALUE, INITIAL_CODING_VALUE_HIGH, INITIAL_HEALTH_VALUE, INITIAL_HEALTH_VALUE_LOW, INITIAL_INTERVIEW_PROBABILITY, INITIAL_INTERVIEW_PROBABILITY_HIGH, INITIAL_INTERVIEW_PROBABILITY_LOW, INITIAL_STUDY_VALUE, INITIAL_STUDY_VALUE_HIGH, INITIAL_STUDY_VALUE_LOW, PlayerStatus } from "../Player/PlayerConstants";
+import { SUMMER_I_ROUNDS } from "../Game/RoundConstants";
 import { Player } from "../Player/Player";
 import { getNormalDistributedInt, getRandomInt } from "../Utils/Rng";
 import { CONDITION_FALSE, CONDITION_TRUE } from "../Utils/SimpleTemplateRender";
 
 const DEFAULT_EMPTY_MAP: Map<string, string> = new Map<string, string>();
 
-export const EVENT_HANDLER_MAP = new Map<number, (player: Player, context: any) => Promise<Map<string, string>>>([
+export const EVENT_HANDLER_MAP = new Map<number, (player: Player, context: any) => Map<string, string>>([
     [0, handler0],
     [1, handler1],
     [2, handler2],
@@ -71,33 +71,31 @@ export const EVENT_HANDLER_MAP = new Map<number, (player: Player, context: any) 
     [504, handler504],
 ]);
 
-export async function noopHandler(player: Player): Promise<Map<string, string>> {
-    console.log("Noop event.");
+export function noopHandler(player: Player): Map<string, string> {
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler0(player: Player): Promise<Map<string, string>> {
+function handler0(player: Player): Map<string, string> {
     // Normal Event handler.
     if (player.attributeIds.includes(10) && SUMMER_I_ROUNDS.includes(player.round)) {
-        await player.assignAttribute([11]);
+        player.assignAttribute([11]);
     }
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler1(player: Player): Promise<Map<string, string>> {
+function handler1(player: Player): Map<string, string> {
     // Event handler 1 - Study.
     player.modifyParameter("study", 2, 1);
     player.modifyParameter("coding", -1, 1);
     player.modifyParameter("health", -1, 1);
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler2(player: Player): Promise<Map<string, string>> {
+function handler2(player: Player): Map<string, string> {
     // Event handler 2 - Send resume.
-    console.log("player interview prob pre " + player.parameter.interviewProbability);
     player.modifyParameter("coding", -1, 2);
     player.modifyParameter("health", -1, 2);
     // From 0 boost to initial value in the first send.
@@ -112,28 +110,27 @@ async function handler2(player: Player): Promise<Map<string, string>> {
     } else {
         player.modifyParameter("interview", 1, 2);
     }
-    console.log("player interview prob after " + player.parameter.interviewProbability);
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler3(player: Player): Promise<Map<string, string>> {
+function handler3(player: Player): Map<string, string> {
     // Event handler 3 - Coding.
     player.modifyParameter("coding", 3, 3);
     player.modifyParameter("health", -2, 3);
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler4(player: Player): Promise<Map<string, string>> {
+function handler4(player: Player): Map<string, string> {
     // Event handler 4 - Slack off.
     player.modifyParameter("coding", -2, 4);
     player.modifyParameter("health", 5, 4);
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler6(player: Player): Promise<Map<string, string>> {
+function handler6(player: Player): Map<string, string> {
     // Event handler 6 - Take final.
     // Generate 3 random numbers, under normal distribution, mean equals to study, stddev = 5,
     // and get the average.
@@ -175,10 +172,10 @@ async function handler6(player: Player): Promise<Map<string, string>> {
         ["grade", grade],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler7(player: Player): Promise<Map<string, string>> {
+function handler7(player: Player): Map<string, string> {
     // Event handler 7: Preliminary interview & Internship interview request.
     let beforeSummer1: boolean = SUMMER_I_ROUNDS.filter((round) => player.round >= round).length == 0;
     let companyName: string = player.companyNameHelper.getNextName("A nameless company");
@@ -188,13 +185,12 @@ async function handler7(player: Player): Promise<Map<string, string>> {
         ["companyName", companyName],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler8(player: Player): Promise<Map<string, string>> {
+function handler8(player: Player): Map<string, string> {
     // Event handler 8: Preliminary interview.
     let res: number = getRandomInt(100) <= player.parameter.coding ? 9 : 10;
-    console.log("[interview] from 8 to " + res);
     // This is a click event, the company name must registered in the last event - handler7.
     let context: number = player.eventNum - 1;
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
@@ -204,13 +200,12 @@ async function handler8(player: Player): Promise<Map<string, string>> {
     ]);
     player.modifyParameter("health", -2, 8);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler9(player: Player, context: any): Promise<Map<string, string>> {
+function handler9(player: Player, context: any): Map<string, string> {
     // Event handler 9: Preliminary interview passed.
     let res: number = getRandomInt(2) % 2 ? 11 : 12;
-    console.log("[interview] from 9 to " + res);
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     player.roundResultEventQueue.push([player.round + 1, res, context]);
     let tokens: Map<string, string> = new Map<string, string>([
@@ -218,10 +213,10 @@ async function handler9(player: Player, context: any): Promise<Map<string, strin
     ]);
     player.modifyParameter("health", 5, 9);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler10(player: Player, context: any): Promise<Map<string, string>> {
+function handler10(player: Player, context: any): Map<string, string> {
     // Event handler 10: Preliminary interview rejected.
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
@@ -229,10 +224,10 @@ async function handler10(player: Player, context: any): Promise<Map<string, stri
     ]);
     player.modifyParameter("health", -5, 10);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler11(player: Player, context: any): Promise<Map<string, string>> {
+function handler11(player: Player, context: any): Map<string, string> {
     // Event handler 11: Onsite interview request.
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
@@ -241,10 +236,10 @@ async function handler11(player: Player, context: any): Promise<Map<string, stri
     player.companyNameHelper.registerName(player.eventNum, companyName);
     player.modifyParameter("health", -5, 10);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler12(player: Player, context: any): Promise<Map<string, string>> {
+function handler12(player: Player, context: any): Map<string, string> {
     // Event handler 12: Onsite interview aborted.
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
@@ -252,27 +247,26 @@ async function handler12(player: Player, context: any): Promise<Map<string, stri
     ]);
     player.modifyParameter("health", -5, 12);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler13(player: Player): Promise<Map<string, string>> {
+function handler13(player: Player): Map<string, string> {
     // Event handler 13: Onsite interview confirmed.
     // Event 13 is a click event after event 11, so last eventNum should be event 11.
     let context: number = player.eventNum - 1;
     player.roundResultEventQueue.push([player.round + 2, 14, context]);
     player.modifyParameter("health", 2, 13);
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler14(player: Player, context: any): Promise<Map<string, string>> {
+function handler14(player: Player, context: any): Map<string, string> {
     // Evnet handler 14: Onsite interview.
     // Five random number for five rounds.
     let performance: number[] = [
         getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100)];
     let hire = performance.filter((score) => score <= player.parameter.coding).length;
     let res = hire >= 4 ? 18 : hire <= 1 ? 19 : 15;
-    console.log("[interview] hire: " + hire + " from 14 to " + res);
     player.roundResultEventQueue.push([player.round + 1, res, context]);
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
@@ -280,10 +274,10 @@ async function handler14(player: Player, context: any): Promise<Map<string, stri
     ]);
     player.modifyParameter("health", -5, 14);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler15(player: Player, context: any): Promise<Map<string, string>> {
+function handler15(player: Player, context: any): Map<string, string> {
     // Event handler 15: Onsite interview additional rounds needed.
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
@@ -292,10 +286,10 @@ async function handler15(player: Player, context: any): Promise<Map<string, stri
     player.companyNameHelper.registerName(player.eventNum, companyName);
     player.modifyParameter("health", -5, 14);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler16(player: Player): Promise<Map<string, string>> {
+function handler16(player: Player): Map<string, string> {
     // Event 16: Addtional onsite confirmed.
     // Event 16 is a click event after event 15, so last eventNum should be event 15.
     let context: number = player.eventNum - 1;
@@ -306,16 +300,15 @@ async function handler16(player: Player): Promise<Map<string, string>> {
     player.roundResultEventQueue.push([player.round + 1, 17, context]);
     player.modifyParameter("health", -1, 16);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler17(player: Player, context: any): Promise<Map<string, string>> {
+function handler17(player: Player, context: any): Map<string, string> {
     // Event 17: Additional onsite.
     // Four random number as it produce more managable result than two.
     let performance: number[] = [getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100)];
     let hire = performance.filter((score) => score <= player.parameter.coding).length;
     let res = hire >= 3 ? 18 : hire <= 1 ? 19 : 15;
-    console.log("[interview] hire: " + hire + " from 17 to " + res);
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName],
@@ -323,10 +316,10 @@ async function handler17(player: Player, context: any): Promise<Map<string, stri
     player.roundResultEventQueue.push([player.round + 1, res, context]);
     player.modifyParameter("health", -2, 17);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler18(player: Player, context: any): Promise<Map<string, string>> {
+function handler18(player: Player, context: any): Map<string, string> {
     // Event 18: Onsite passed.
     player.modifyParameter("health", 10, 18);
     player.assignAttribute([13]);
@@ -335,21 +328,21 @@ async function handler18(player: Player, context: any): Promise<Map<string, stri
         ["companyName", companyName],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler19(player: Player, context: any): Promise<Map<string, string>> {
-    // Event 19: Oniste failed.
+function handler19(player: Player, context: any): Map<string, string> {
+    // Event 19: Onsite failed.
     player.modifyParameter("health", -10, 18);
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler20(player: Player): Promise<Map<string, string>> {
+function handler20(player: Player): Map<string, string> {
     // Event 20: Summer intern working.
     let workAffect: number = Math.min(getRandomInt(20) + 5, 20);
     player.modifyParameter("working", workAffect, 20);
@@ -359,10 +352,10 @@ async function handler20(player: Player): Promise<Map<string, string>> {
         ["highWork", workAffect > 13 ? CONDITION_TRUE : CONDITION_FALSE]
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler21(player: Player): Promise<Map<string, string>> {
+function handler21(player: Player): Map<string, string> {
     // Event 21: Summer intern interview.
     // Event 21 is a click event after event 7, so last eventNum should be event 7.
     let context: number = player.eventNum - 1;
@@ -371,14 +364,13 @@ async function handler21(player: Player): Promise<Map<string, string>> {
         ["companyName", companyName],
     ]);
     let res: number = getRandomInt(100) <= player.parameter.coding ? 22 : 23;
-    console.log("[interview] from 21 to " + res);
     player.modifyParameter("health", -2, 8);
     player.roundResultEventQueue.push([player.round + 1, res, context]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler22(player: Player, context: any): Promise<Map<string, string>> {
+function handler22(player: Player, context: any): Map<string, string> {
     // Event handler 22: Internship interview passed.
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
@@ -386,24 +378,23 @@ async function handler22(player: Player, context: any): Promise<Map<string, stri
     ]);
     player.modifyParameter("health", 8, 9);
     player.internOffers.push(companyName);
-    await player.assignAttribute([10]);
+    player.assignAttribute([10]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler23(player: Player, context: any): Promise<Map<string, string>> {
+function handler23(player: Player, context: any): Map<string, string> {
     // Event handler 23: Inernship interview rejected.
-    console.log("Event 22 got context " + context);
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName],
     ]);
     player.modifyParameter("health", -5, 10);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler25(player: Player): Promise<Map<string, string>> {
+function handler25(player: Player): Map<string, string> {
     // Event handler 25: Demo the project.
     let probability: number = getRandomInt(100);
     let workingFinal: number = Math.min(player.parameter.working, 85);
@@ -414,10 +405,10 @@ async function handler25(player: Player): Promise<Map<string, string>> {
     player.roundResultEventQueue.push([player.round + 1, probability <= workingFinal ? 27 : 28, context]);
     player.modifyParameter("health", player.parameter.working >= 80 ? 5: 2, 25);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler26(player: Player): Promise<Map<string, string>> {
+function handler26(player: Player): Map<string, string> {
     // Event handler 26: Didn't demo.
     let probability: number = getRandomInt(100);
     let workingFinal: number = Math.min(player.parameter.working, 20);
@@ -428,22 +419,21 @@ async function handler26(player: Player): Promise<Map<string, string>> {
     player.roundResultEventQueue.push([player.round + 1, probability <= workingFinal ? 27 : 28, context]);
     player.modifyParameter("health", player.parameter.working >= 80 ? 0 : -3, 26);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler27(player: Player): Promise<Map<string, string>> {
+function handler27(player: Player): Map<string, string> {
     // Event handler 27: Return offer.
     let companyName: string = player.internOffers[0];
-    console.log("return offer is " + companyName);
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName]
     ]);
     player.assignAttribute([12]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler28(player: Player): Promise<Map<string, string>> {
+function handler28(player: Player): Map<string, string> {
     // Event handler 28: Return offer rejected.
     let companyName: string = player.internOffers[0];
     let tokens: Map<string, string> = new Map<string, string>([
@@ -451,10 +441,10 @@ async function handler28(player: Player): Promise<Map<string, string>> {
     ]);
     player.modifyParameter("health", -3, 28);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler30(player: Player): Promise<Map<string, string>> {
+function handler30(player: Player): Map<string, string> {
     // Event handler 30: Join career fair.
     player.modifyParameter("interview", 10, 30);
     let tokens: Map<string, string> = new Map<string, string>([
@@ -463,40 +453,40 @@ async function handler30(player: Player): Promise<Map<string, string>> {
         ["goodPlace", player.attributeIds.includes(9) ? CONDITION_TRUE : CONDITION_FALSE],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler31(player: Player): Promise<Map<string, string>> {
+function handler31(player: Player): Map<string, string> {
     // Event handler 31: Did not join career fair.
     let tokens: Map<string, string> = new Map<string, string>([
         ["goodPlace", player.attributeIds.includes(9) ? CONDITION_TRUE : CONDITION_FALSE],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler33(player: Player): Promise<Map<string, string>> {
+function handler33(player: Player): Map<string, string> {
     // Event handler 33: Join the group study.
     player.modifyParameter("study", 8, 31);
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler34(player: Player): Promise<Map<string, string>> {
+function handler34(player: Player): Map<string, string> {
     // Event handler 33: Reject the group study 1.
     player.modifyParameter("health", 2, 34);
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler35(player: Player): Promise<Map<string, string>> {
+function handler35(player: Player): Map<string, string> {
     // Event handler 33: Reject the group study 2.
     player.modifyParameter("health", -2, 34);
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler37(player: Player): Promise<Map<string, string>> {
+function handler37(player: Player): Map<string, string> {
     // Event handler 37: Cheat in assignment.
     let cheatSuccess: boolean = false;
     if (player.attributeIds.includes(4)) {
@@ -525,10 +515,10 @@ async function handler37(player: Player): Promise<Map<string, string>> {
         ["highStudy", highStudy ? CONDITION_TRUE : CONDITION_FALSE],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler38(player: Player): Promise<Map<string, string>> {
+function handler38(player: Player): Map<string, string> {
     // Event handler 38: Teammate sucks in presentation.
     let highStudy: boolean = player.parameter.study >= 85;
     if (highStudy) {
@@ -542,18 +532,18 @@ async function handler38(player: Player): Promise<Map<string, string>> {
         ["highStudy", highStudy ? CONDITION_TRUE : CONDITION_FALSE],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler39(player: Player): Promise<Map<string, string>> {
+function handler39(player: Player): Map<string, string> {
     // Event handler 39: You suck in presentation.
     player.modifyParameter("study", -2, 39);
     player.modifyParameter("health", -2, 39)
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler40(player: Player): Promise<Map<string, string>> {
+function handler40(player: Player): Map<string, string> {
     // Event handler 40: Submitted assigment with wrong file.
     let highStudy: boolean = player.parameter.study >= 85;
     if (highStudy) {
@@ -566,10 +556,10 @@ async function handler40(player: Player): Promise<Map<string, string>> {
         ["highStudy", highStudy ? CONDITION_TRUE : CONDITION_FALSE],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler41(player: Player): Promise<Map<string, string>> {
+function handler41(player: Player): Map<string, string> {
     // Event handler 41: Social.
     let nerd: boolean = player.attributeIds.includes(14);
     let social: boolean = player.attributeIds.includes(15);
@@ -585,10 +575,10 @@ async function handler41(player: Player): Promise<Map<string, string>> {
         ["social", social ? CONDITION_TRUE : CONDITION_FALSE]
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler42(player: Player): Promise<Map<string, string>> {
+function handler42(player: Player): Map<string, string> {
     // Event handler 42: Insomina.
     let inSemester: boolean = !isInVacation(player.round);
     let inWork: boolean = isInVacation(player.round) && player.attributeIds.includes(11);
@@ -604,10 +594,10 @@ async function handler42(player: Player): Promise<Map<string, string>> {
         ["inRest", inRest ? CONDITION_TRUE : CONDITION_FALSE],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler43(player: Player): Promise<Map<string, string>> {
+function handler43(player: Player): Map<string, string> {
     // Event handler 43: Eat outside.
     // Well, though contradicted to truth, let's make it a positive-inclining event.
     let rand: number = getRandomInt(10);
@@ -620,25 +610,25 @@ async function handler43(player: Player): Promise<Map<string, string>> {
         ["eatGood", rand >= 3 ? CONDITION_TRUE : CONDITION_FALSE],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler44(player: Player): Promise<Map<string, string>> {
+function handler44(player: Player): Map<string, string> {
     // Event handler 44: Rumor of someone got piped.
     player.modifyParameter("health", -1, 44);
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler46(player: Player): Promise<Map<string, string>> {
+function handler46(player: Player): Map<string, string> {
     // Event handler 46: Script nuked the prod env.
     player.modifyParameter("health", -3, 46);
     player.modifyParameter("work", -5, 46);
     player.maintain();
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler47(player: Player): Promise<Map<string, string>> {
+function handler47(player: Player): Map<string, string> {
     // Event handler 47: Join the weekly coding contest.
     let goodRank: boolean = getNormalDistributedInt(player.parameter.coding, 5) >= 60;
     if (goodRank) {
@@ -651,10 +641,10 @@ async function handler47(player: Player): Promise<Map<string, string>> {
         ["goodRank", goodRank ? CONDITION_TRUE : CONDITION_FALSE],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler48(player: Player): Promise<Map<string, string>> {
+function handler48(player: Player): Map<string, string> {
     // Event handler 48: Grade released on home assignment.
     let grade = getRandomInt(100);
     let goodGrade: boolean = grade <= player.parameter.study;
@@ -674,13 +664,14 @@ async function handler48(player: Player): Promise<Map<string, string>> {
         ["badGrade", badGrade ? CONDITION_TRUE : CONDITION_FALSE],
     ]);
     player.maintain();
-    return Promise.resolve(tokens);
+    return tokens
 }
 
-async function handler101(player: Player): Promise<Map<string, string>> {
+function handler101(player: Player): Map<string, string> {
     // Event handler 101 - Commencing event 1: Assign initial attributes.
+    let giftIdCount = getRandomInt(3) + 1;
     let giftIds: number[] = [];
-    while (giftIds.length < 3) {
+    while (giftIds.length < giftIdCount) {
         let candidate: number = GIFTED_ATTRIBUTE_IDS[getRandomInt(GIFTED_ATTRIBUTE_IDS.length)];
         let canPush: boolean = true;
         for (let id of giftIds) {
@@ -699,11 +690,11 @@ async function handler101(player: Player): Promise<Map<string, string>> {
         }
     }
     giftIds.sort((lhs, rhs) => {return lhs - rhs;});
-    await player.assignAttribute(giftIds);
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    player.assignAttribute(giftIds);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler102(player: Player): Promise<Map<string, string>> {
+function handler102(player: Player): Map<string, string> {
     // Event handler 102 - Reflect gift attribute to parameters.
     let giftIds: number[] = player.attributeIds;
     player.parameter.coding = giftIds.includes(0) ? INITIAL_CODING_VALUE_HIGH : INITIAL_CODING_VALUE;
@@ -711,19 +702,17 @@ async function handler102(player: Player): Promise<Map<string, string>> {
     player.parameter.health += giftIds.includes(7) ? 5 : 0;
     player.parameter.study = giftIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : giftIds.includes(5) ? INITIAL_STUDY_VALUE : INITIAL_STUDY_VALUE_LOW;
     player.parameter.interviewProbability = 0;
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler500(player: Player): Promise<Map<string, string>> {
+function handler500(player: Player): Map<string, string> {
     // Event handler 500 - Game over 0.
-    console.log("handler 500 executed");
     player.status = PlayerStatus.DIDNT_START;
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }
 
-async function handler504(player: Player): Promise<Map<string, string>> {
+function handler504(player: Player): Map<string, string> {
     // Event handler 504 - Game over 5.
-    console.log("handler 504 executed")
     player.status = PlayerStatus.FINAL_ABSENT;
-    return Promise.resolve(DEFAULT_EMPTY_MAP);
+    return DEFAULT_EMPTY_MAP;
 }

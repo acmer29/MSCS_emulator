@@ -1,6 +1,6 @@
 import { Player } from "../Player/Player";
-import { isInVacation } from "../Constant/CalendarConstants";
-import { SUMMER_I_ROUNDS } from "../Constant/RoundConstants";
+import { isInVacation } from "../Utils/Calendar";
+import { SUMMER_I_ROUNDS } from "../Game/RoundConstants";
 
 export const OPTION_MASK_MAP = new Map<number, (options: Map<number, string>, player: Player) => Map<number, string>>([
     [0, optionDecorator0],

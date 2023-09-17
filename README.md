@@ -1,6 +1,6 @@
 # MSCS_emulator
 
-auther: [Tianyu Qi](https://www.linkedin.com/in/tianyu-q-477a25147/)
+author: [Tianyu Qi](https://www.linkedin.com/in/tianyu-q-477a25147/)
 
 ## Summary
 

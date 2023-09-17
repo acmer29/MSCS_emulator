@@ -1,4 +1,4 @@
-import { PlayerStatus } from "./PlayerConstants";
+import { PlayerStatus } from "../Player/PlayerConstants";
 
 export const RANDOM_EVENT_IDS: number[] = [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
 export const SEMASTER_ONLY_RANDOM_START_EVENT_ID: number[] = [29, 32, 36, 38, 39, 40, 48];

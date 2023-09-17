@@ -1,4 +1,4 @@
-import { MUTURAL_EXCLUSIVE_ATTRIBUTE_GROUPS } from "../Constant/AttributeConstants"
+import { MUTURAL_EXCLUSIVE_ATTRIBUTE_GROUPS } from "./AttributeConstants"
 
 export function getMutualExclueAttributeGroup(attributeId: number): number {
     for (let i = 0; i < MUTURAL_EXCLUSIVE_ATTRIBUTE_GROUPS.length; ++i) {

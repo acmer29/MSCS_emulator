@@ -1,8 +1,10 @@
 import { AttributeManager } from "../Attribute/AttributeManager";
-import { END_ROUND, SUMMER_I_ROUNDS } from "../Constant/RoundConstants";
+import { END_ROUND, SUMMER_I_ROUNDS } from "../Game/RoundConstants";
 import { Parameter } from "./Parameter"
-import { PlayerStatus } from "../Constant/PlayerConstants";
+import { PlayerStatus } from "./PlayerConstants";
 import { NameHelper } from "./NameHelper";
+import { COURSE_NAME_TEXTS } from "./Static/CourseNameTexts";
+import { COMPANY_NAME_TEXTS } from "./Static/CompanyNameTexts";
 
 export class Player {
     private _parameter: Parameter;
@@ -27,14 +29,10 @@ export class Player {
         this._attributeManager = new AttributeManager();
         this._roundResultEventQueue = [];
         this._eventNum = eventNum;
-        this._courseNameHelper = new NameHelper();
-        this._companyNameHelper = new NameHelper();
+        this._courseNameHelper = new NameHelper(COURSE_NAME_TEXTS);
+        this._companyNameHelper = new NameHelper(COMPANY_NAME_TEXTS);
         this._internOffers = [];
         this._offers = []
-
-        // These names are not needed immidiately after reset or instantiation, so can be waited.
-        this._courseNameHelper.init("course_names");
-        this._companyNameHelper.init("company_names");
     }
 
     get parameter() {
@@ -154,8 +152,8 @@ export class Player {
         }
     }
 
-    async assignAttribute(attributeIds: number[]) {
-        await this._attributeManager.activateAttribute(attributeIds);
+    assignAttribute(attributeIds: number[]) {
+        this._attributeManager.activateAttribute(attributeIds);
     }
 
     removeAttribute(attributeIds: number[]) {

@@ -1,11 +1,10 @@
 import { EventManager } from "../Event/EventManager";
 import { UiManager } from "../Ui/UiManager";
 import { Player } from "../Player/Player";
-import { PlayerStatus } from "../Constant/PlayerConstants";
-import { COMPULSORY_EVENT_ROUNDS, GAME_START_ROUND, SUMMER_I_ROUNDS } from "../Constant/RoundConstants";
-import { COMPULSORY_EVENT_IDS, FINAL_TEST_START_EVENT_ID, GAME_OVER_EVENTS_MAP, GAME_START_EVENT_ID, IN_PHASE_END_EVENT_ID, JOBHUNTING_EVENT_ID, NORMAL_EVENT_ID, PHASE_END_EVENT_ID, RETURN_OFFER_EVAL_START_EVENT_ID } from "../Constant/EventConstants";
+import { PlayerStatus } from "../Player/PlayerConstants";
+import { COMPULSORY_EVENT_ROUNDS, GAME_START_ROUND, SUMMER_I_ROUNDS } from "./RoundConstants";
+import { COMPULSORY_EVENT_IDS, FINAL_TEST_START_EVENT_ID, GAME_OVER_EVENTS_MAP, GAME_START_EVENT_ID, IN_PHASE_END_EVENT_ID, JOBHUNTING_EVENT_ID, NORMAL_EVENT_ID, PHASE_END_EVENT_ID, RETURN_OFFER_EVAL_START_EVENT_ID } from "../Event/EventConstants";
 import { getRandomInt } from "../Utils/Rng";
-import { ExecutableEventDecorator } from "../Event/ExecutableEventDecorator";
 
 enum RoundPhases {
     INVALID,
@@ -27,12 +26,10 @@ export class RoundManager {
 
     private _ui: UiManager;
     private _eventManager: EventManager;
-    private _render: ExecutableEventDecorator;
 
     constructor() {
         this._ui = new UiManager();
         this._eventManager = new EventManager();
-        this._render = new ExecutableEventDecorator();
         this._player = new Player();
         this.reset();
     }
@@ -45,9 +42,12 @@ export class RoundManager {
         } else {
             this._player.reset();
         }
+        this._ui.reset();
     }
 
     async oneRound(initialPhase: RoundPhases | null = null): Promise<void> {
+        this._ui.printTime(this._player.round);
+
         this._eventManager.resetUsedRandomEvent();
         this._randomEventNum = getRandomInt(4);
 
@@ -185,7 +185,10 @@ export class RoundManager {
             let possibleNextRandomEventId = this._eventManager.getNextRandomEvent(this._player);
             this._currentEventId = possibleNextRandomEventId == -1 ? PHASE_END_EVENT_ID : possibleNextRandomEventId;
             this._randomEventNum -= 1;
+        } else if (this._randomEventNum <= 0 && this._currentEventId == IN_PHASE_END_EVENT_ID) {
+            this._currentEventId = PHASE_END_EVENT_ID;
         }
+
         if (this._currentEventId != PHASE_END_EVENT_ID) {
             await this.eventTransition();
         }
@@ -210,20 +213,17 @@ export class RoundManager {
     }
 
     private async eventTransition(context: any = null): Promise<void> {
-        let executableEvent = await this._eventManager.serveExecutableEvent(this._currentEventId);
-        let vars: Map<string, string> = await executableEvent.handler(this._player, context);
-        this._render.decorateEvent(executableEvent, this._player, vars);
+        let executionResult: [string, Map<number, string>] = 
+            this._eventManager.executeEvent(this._currentEventId, this._player, context);
 
         // Do not print the initialized value before event 102 changes them.
-        if ([100, 101, 500].includes(executableEvent.event.id)) {
-            this._ui.printTime(this._player.round);
-        } else {
-            this._ui.printFrame(this._player);
+        if (![100, 101, 500].includes(this._currentEventId)) {
+            this._ui.printParameter(this._player.parameter);
+            this._ui.printAttributes(this._player.attributeStrings);
         }
         
         let choice: number = await this._ui.printAndSetupEvent(
-            executableEvent.event.descriptions[0]!,
-            executableEvent.event.options);
+            executionResult[0], executionResult[1]);
         this._currentEventId = choice;
         this._player.eventNum += 1;
     }

@@ -1,5 +1,5 @@
 import { Parameter } from "../Player/Parameter";
-import { CALENDAR } from "../Constant/CalendarConstants";
+import { CALENDAR } from "../Utils/Calendar";
 import { Player } from "../Player/Player";
 
 export class UiManager {
@@ -8,6 +8,17 @@ export class UiManager {
         this.printParameter(player.parameter);
         this.printAttributes(player.attributeStrings);
         this.printTime(player.round);
+    }
+
+    reset(): void {
+        this.clearContainer(document.getElementById("event-message-box")!);
+        this.clearContainer(document.getElementById("event-option-window")!);
+        this.clearContainer(document.getElementById("study-value-span")!);
+        this.clearContainer(document.getElementById("scores-value-span")!);
+        this.clearContainer(document.getElementById("coding-value-span")!);
+        this.clearContainer(document.getElementById("health-value-span")!);
+        this.clearContainer(document.getElementById("attribute-window")!);
+        this.clearContainer(document.getElementById("time-value-box")!);
     }
 
     async printAndSetupEvent(description: string, options: Map<number, string>): Promise<number> {

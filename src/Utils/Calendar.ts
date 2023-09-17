@@ -1,6 +1,6 @@
 // Using this brutal method is suprisingly effective than parsing the round number, let's keep it this way.
 export const CALENDAR = new Map<number, string>([
-    [-1, "N/A - August, Y1"],
+    [-1, "Summer - August, Y1"],
     [0, "Fall I - Early September, Y1"],
     [1, "Fall I - Late September, Y1"],
     [2, "Fall I - Early October, Y1"],
