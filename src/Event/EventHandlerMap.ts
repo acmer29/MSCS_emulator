@@ -60,7 +60,7 @@ export const EVENT_HANDLER_MAP = new Map<number, (player: Player, context: any) 
     [48, handler48],
     [100, noopHandler],
     [101, handler101],
-    [102, handler102],
+    [102, noopHandler],
     [200, noopHandler],
     [307, noopHandler],
     [308, noopHandler],
@@ -110,6 +110,11 @@ function handler2(player: Player): Map<string, string> {
     } else {
         player.modifyParameter("interview", 1, 2);
     }
+    if (isInVacation(player.round)) {
+        let bottomline: number = player.attributeIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : player.attributeIds.includes(5) ? INITIAL_STUDY_VALUE : INITIAL_STUDY_VALUE_LOW;
+        let toSubstract: number = Math.min(player.parameter.study - bottomline, 5)
+        player.modifyParameter("study", -1 * toSubstract, null);
+    }
     player.maintain();
     return DEFAULT_EMPTY_MAP;
 }
@@ -118,6 +123,11 @@ function handler3(player: Player): Map<string, string> {
     // Event handler 3 - Coding.
     player.modifyParameter("coding", 3, 3);
     player.modifyParameter("health", -2, 3);
+    if (isInVacation(player.round)) {
+        let bottomline: number = player.attributeIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : player.attributeIds.includes(5) ? INITIAL_STUDY_VALUE : INITIAL_STUDY_VALUE_LOW;
+        let toSubstract: number = Math.min(player.parameter.study - bottomline, 5)
+        player.modifyParameter("study", -1 * toSubstract, null);
+    }
     player.maintain();
     return DEFAULT_EMPTY_MAP;
 }
@@ -126,6 +136,11 @@ function handler4(player: Player): Map<string, string> {
     // Event handler 4 - Slack off.
     player.modifyParameter("coding", -2, 4);
     player.modifyParameter("health", 5, 4);
+    if (isInVacation(player.round)) {
+        let bottomline: number = player.attributeIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : player.attributeIds.includes(5) ? INITIAL_STUDY_VALUE : INITIAL_STUDY_VALUE_LOW;
+        let toSubstract: number = Math.min(player.parameter.study - bottomline, 5)
+        player.modifyParameter("study", -1 * toSubstract, null);
+    }
     player.maintain();
     return DEFAULT_EMPTY_MAP;
 }
@@ -163,8 +178,6 @@ function handler6(player: Player): Map<string, string> {
         grade = "C";
     }
     player.parameter.scores.push(grade);
-    // After the final it's a fresh start.
-    player.parameter.study = player.attributeIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : player.attributeIds.includes(5) ? INITIAL_STUDY_VALUE : INITIAL_STUDY_VALUE_LOW;
     let tokens: Map<string, string> = new Map<string, string>([
         ["subject1", subjects[0]],
         ["subject2", subjects[1]],
@@ -690,18 +703,12 @@ function handler101(player: Player): Map<string, string> {
         }
     }
     giftIds.sort((lhs, rhs) => {return lhs - rhs;});
-    player.assignAttribute(giftIds);
-    return DEFAULT_EMPTY_MAP;
-}
-
-function handler102(player: Player): Map<string, string> {
-    // Event handler 102 - Reflect gift attribute to parameters.
-    let giftIds: number[] = player.attributeIds;
     player.parameter.coding = giftIds.includes(0) ? INITIAL_CODING_VALUE_HIGH : INITIAL_CODING_VALUE;
     player.parameter.health = giftIds.includes(2) ? INITIAL_HEALTH_VALUE : INITIAL_HEALTH_VALUE_LOW;
     player.parameter.health += giftIds.includes(7) ? 5 : 0;
     player.parameter.study = giftIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : giftIds.includes(5) ? INITIAL_STUDY_VALUE : INITIAL_STUDY_VALUE_LOW;
     player.parameter.interviewProbability = 0;
+    player.assignAttribute(giftIds);
     return DEFAULT_EMPTY_MAP;
 }
 

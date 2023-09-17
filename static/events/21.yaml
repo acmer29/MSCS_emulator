@@ -1,7 +1,0 @@
-# Job hunting event - click event: Internship phone interview requested.
-event:
-  id: 21
-  descriptions:
-    - You finished the internship phone interview with {{ companyName }}, HR told you to wait several days for the result.
-  options:
-    308: Cool.

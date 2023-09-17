@@ -1,8 +1,0 @@
-# End 2 - You died.
-event:
-  id: 501
-  descriptions:
-    - You cannot suffer the life in here anymore, both mentally and physcially. <br>
-      You decide to go back home and never come back.
-  options:
-    100: Start a new MSCS emulator journey.

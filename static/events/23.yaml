@@ -1,8 +1,0 @@
-# Result event - Phone interview rejected.
-event:
-  id: 23
-  descriptions:
-    - The HR from {{ companyName }} informed you that they will not be moving forward with your internship application.<br>
-      But they really appreciate your interest with {{ companyName }}.
-  options:
-    307: How unfortunate..

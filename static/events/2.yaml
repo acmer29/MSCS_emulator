@@ -1,8 +1,0 @@
-# Normal event - click event: Send resume
-event:
-  id: 2
-  descriptions:
-    - You surfed in LoopedIn, WasteDay and other job listing websites and posted your resume.<br>
-      Hopefully there will be some good news.
-  options:
-    308: cool

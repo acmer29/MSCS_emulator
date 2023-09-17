@@ -15,11 +15,12 @@ export const DESCRIPTION_TEXTS_MAP: Map<number, string> = new Map([
     [5, `The end of this semester draws near, profressors have annouced the final examination date.<br>
         And which is in this two weeks.`],
     [6, `You took the final on three subjects, the transcript is as below:<br>
-        {{ subject1 }}
-        {{ subject2 }}
-        {{ subject3 }}
-        The semester ended after all the final finished.`],
-    [7, `You received an email from {{ companyName }} HR<br>
+        {{ subject1 }}<br>
+        {{ subject2 }}<br>
+        {{ subject3 }}<br>
+        Your grade of this semester is {{ grade }}<br>
+        The semester ended after all the final examinations finished.`],
+    [7, `You received an email from HR at {{ companyName }}<br>
         they invited you for {{ IF intern }}internship{{ FI }} phone interview this week!`],
     [8, `You finished the phone interview with {{ companyName }}, HR told you to wait several days for the result.`],
     [9, `Congratulations! The HR from {{ companyName }} informed you that your phone interview has passed.<br>
@@ -196,12 +197,6 @@ export const DESCRIPTION_TEXTS_MAP: Map<number, string> = new Map([
     // Opening events start.
     [100, `It's time! You decide to apply for CS Master's program in US!`],
     [101, `One of your application has been admitted and you decide to accept the offer!`],
-    [102, `In order to graduate, please maintain a good grade. <br>
-        The school will drop you if you got C grade twice or F grade once in final. <br>
-        Meanwhile, your goal is to find a full-time software engineer job <br>
-        and can therefore stay in US. <br>
-        Of course your sanity is important as well, you will decide to drop <br>
-        the program when you cannot hold yourself anymore.`],
     // Opening events end.
     // Good end events start.
     [200, `Congratulations! You graduated from school with dipolma (somewhat unimportant) <br>

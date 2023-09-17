@@ -1,8 +1,0 @@
-# Random event - click event - Reject group study 2.
-event:
-  id: 35
-  descriptions:
-    - "You are not familiar with those classmates, and thus rejected their invitation.<br>
-      Your relationship with them, alas, has been inevitablely demaged"
-  options:
-    307: Why they become so indifferent..

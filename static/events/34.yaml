@@ -1,8 +1,0 @@
-# Random event - click event - Reject group study 1.
-event:
-  id: 34
-  descriptions:
-    - "You rejected your classmates' invitation as you noticed that they only want to copy your finished assignments.<br>
-      But your relationship with them, however, has been inevitablely demaged"
-  options:
-    307: Who cares

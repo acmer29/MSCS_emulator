@@ -1,7 +1,0 @@
-# Commencing event 1
-event:
-  id: 101
-  descriptions:
-    - One of your application has been admitted and you decide to accept the offer!
-  options:
-    102: Cool

@@ -1,8 +1,0 @@
-# Result event - click event: Onsite interview additional rounds needed.
-event:
-  id: 16
-  descriptions:
-    - Your addtional interview with {{ companyName }} has been scheduled for the next month.<br>
-      You then asked their HR if there is any eariler slot available, they did not reply you.
-  options:
-    307: Got it.

@@ -1,3 +1,7 @@
+// To cut the cost of deploying the app on a cloud server, 
+// the app has to be fully static to be hosted on github.io page.
+// Therefore the static texts has to be put into the code.
+
 export const ATTRIBUTE_TEXT_MAP: Map<number, [string, boolean, number[], number[]]> = new Map<number, [string, boolean, number[], number[]]>([
     [0, ["Former coding contestant", true, [0, 0.5, 0, 0, 0], [0, 0, -0.25, 0, 0]]],
     [1, ["Hop into CS without experience", true, [0, -0.25, 0, 0, 0], [0, 0, 0.25, 0, 0]]],

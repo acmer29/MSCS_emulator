@@ -1,9 +1,0 @@
-# End 4 - No Offer.
-event:
-  id: 503
-  descriptions:
-    - Despite you might hard work.<br>
-      For various reasons, you still have no offer until the OPT grace period ends.<br>
-      Your visa expired and you have to go back home.
-  options:
-    100: Start a new MSCS emulator journey.

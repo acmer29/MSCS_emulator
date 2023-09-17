@@ -1,9 +1,0 @@
-# End 3 - You dropped.
-event:
-  id: 502
-  descriptions:
-    - Despite you might hard work, your grade is belowing the bar<br>
-      and the school decide to drop you off the Master's program.<br>
-      Your visa expired and you have to go back home.
-  options:
-    100: Start a new MSCS emulator journey.

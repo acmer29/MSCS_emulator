@@ -1,7 +1,0 @@
-# End 1 - You didn't apply MSCS.
-event:
-  id: 500
-  descriptions:
-    - You decide not to proceed MSCS in US.
-  options:
-    100: Start a new MSCS emulator journey.

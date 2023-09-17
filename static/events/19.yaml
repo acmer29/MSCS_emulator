@@ -1,9 +1,0 @@
-# Result event: Onsite interview failed.
-event:
-  id: 19
-  descriptions:
-    - Congratulations, you have finished the onsite interview with {{ companyName }}!<br>
-      However, after careful consideration, {{ companyName }} decide not move forward with your application.<br>
-      They do, however, appreciate your interest with them.
-  options:
-    307: How unfortunate...

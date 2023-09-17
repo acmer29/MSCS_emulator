@@ -1,9 +1,0 @@
-# End 0 - Happy ending.
-event:
-  id: 200
-  descriptions:
-    - Congratulations! You graduated from school with dipolma (somewhat unimportant) <br>
-      AND a shiney accepted offer letter from an IT company!<br>
-      Your OPT application has been approved, bon voyage on your new jouney!
-  options:
-    100: Start a new MSCS emulator journey.

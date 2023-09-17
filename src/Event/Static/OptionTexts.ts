@@ -1,3 +1,7 @@
+// To cut the cost of deploying the app on a cloud server, 
+// the app has to be fully static to be hosted on github.io page.
+// Therefore the static texts has to be put into the code.
+
 export const OPTION_TEXT_MAP: Map<number, [number, string][]> = new Map([
     [0, [[1, `Study`],
         [2, `Send resume`],
@@ -75,8 +79,7 @@ export const OPTION_TEXT_MAP: Map<number, [number, string][]> = new Map([
                 {{ FI }}`]]],
     [100, [[101, `Excited!`],
         [500, `Nonsense, I won't leave my beloved motherland`]]],
-    [101, [[102, `Cool`]]],
-    [102, [[308, `Cool`]]],
+    [101, [[308, `Cool`]]],
     [200, [[100, `Start a new MSCS emulator journey`]]],
     [500, [[100, `Start a new MSCS emulator journey`]]],
     [501, [[100, `Start a new MSCS emulator journey`]]],

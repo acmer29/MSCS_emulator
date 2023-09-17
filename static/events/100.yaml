@@ -1,8 +1,0 @@
-# Commencing event 0
-event:
-  id: 100
-  descriptions:
-    - It's time! You decide to apply for CS Master's program in US!
-  options:
-    101: Excited!
-    500: Nonsense, I won't leave my beloved motherland.

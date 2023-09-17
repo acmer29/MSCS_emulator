@@ -217,7 +217,7 @@ export class RoundManager {
             this._eventManager.executeEvent(this._currentEventId, this._player, context);
 
         // Do not print the initialized value before event 102 changes them.
-        if (![100, 101, 500].includes(this._currentEventId)) {
+        if (![100, 500].includes(this._currentEventId)) {
             this._ui.printParameter(this._player.parameter);
             this._ui.printAttributes(this._player.attributeStrings);
         }
