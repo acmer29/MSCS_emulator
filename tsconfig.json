@@ -10,7 +10,7 @@
         "rootDir": "./src",
         "outDir": "./build",
         "lib": [
-            "dom", "es7", "ES2021.Promise"
+            "dom", "dom.iterable", "es7", "ES2021.Promise"
         ],
         "module": "NodeNext",
     },

@@ -6,7 +6,7 @@ export const enum RANDOM_EVENT_RARITY {
     LOW, // 1/7
     MEDIUM, // 2/7
     HIGH, // 4/7
-    MUST, // 7/7, only with contain conditions.
+    MUST, // 7/7, reserved for future uses.
 }
 
 export const RANDOM_EVENT_AVAILABILITY_MAP = new Map<number, (player: Player) => RANDOM_EVENT_RARITY>([

@@ -71,8 +71,8 @@ export class Player {
         return this._attributeManager.getActivatedAttributeIds();
     }
 
-    get attributeStrings(): string[] {
-        return this._attributeManager.displayVisibleActivatedAttribute();
+    get attributeStrings(): string[][] {
+        return this._attributeManager.getVisibleActivatedAttributeDescriptions();
     }
 
     get eventNum(): number {

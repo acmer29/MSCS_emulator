@@ -2,13 +2,13 @@ import { Player } from "../Player/Player";
 import { isInVacation } from "../Utils/Calendar";
 import { SUMMER_I_ROUNDS } from "../Game/RoundConstants";
 
-export const OPTION_MASK_MAP = new Map<number, (options: Map<number, string>, player: Player) => Map<number, string>>([
+export const OPTION_MASK_MAP = new Map<number, (options: Map<number, string[]>, player: Player) => Map<number, string[]>>([
     [0, optionDecorator0],
     [7, optionDecorator7],
     [32, optionDecorator32],
 ]);
 
-function optionDecorator0(options: Map<number, string>, player: Player): Map<number, string> {
+function optionDecorator0(options: Map<number, string[]>, player: Player): Map<number, string[]> {
     // In vacation, study is unavailable.
     if (isInVacation(player.round)) {
         options.delete(1);
@@ -20,7 +20,7 @@ function optionDecorator0(options: Map<number, string>, player: Player): Map<num
     return options
 }
 
-function optionDecorator7(options: Map<number, string>, player: Player): Map<number, string> {
+function optionDecorator7(options: Map<number, string[]>, player: Player): Map<number, string[]> {
     // If before summer I, only intern interview is available.
     if (SUMMER_I_ROUNDS.filter((round) => round <= player.round).length == 0) {
         options.delete(8);
@@ -30,7 +30,7 @@ function optionDecorator7(options: Map<number, string>, player: Player): Map<num
     return options;
 }
 
-function optionDecorator32(options: Map<number, string>, player: Player): Map<number, string> {
+function optionDecorator32(options: Map<number, string[]>, player: Player): Map<number, string[]> {
     // If study is higher then 90 or player is nerd, able to reject in a cool way.
     if (player.parameter.study < 90 && !player.attributeIds.includes(14)) {
         options.delete(34);

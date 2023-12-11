@@ -5,6 +5,7 @@ import { PlayerStatus } from "../Player/PlayerConstants";
 import { COMPULSORY_EVENT_ROUNDS, GAME_START_ROUND, SUMMER_I_ROUNDS } from "./RoundConstants";
 import { COMPULSORY_EVENT_IDS, FINAL_TEST_START_EVENT_ID, GAME_OVER_EVENTS_MAP, GAME_START_EVENT_ID, IN_PHASE_END_EVENT_ID, JOBHUNTING_EVENT_ID, NORMAL_EVENT_ID, PHASE_END_EVENT_ID, RETURN_OFFER_EVAL_START_EVENT_ID } from "../Event/EventConstants";
 import { getRandomInt } from "../Utils/Rng";
+import { LanguageFlag } from "./LanguageFlag";
 
 enum RoundPhases {
     INVALID,
@@ -213,7 +214,7 @@ export class RoundManager {
     }
 
     private async eventTransition(context: any = null): Promise<void> {
-        let executionResult: [string, Map<number, string>] = 
+        let executionResult: [string[], Map<number, string[]>] = 
             this._eventManager.executeEvent(this._currentEventId, this._player, context);
 
         // Do not print the initialized value before event 102 changes them.

@@ -1,13 +1,47 @@
 import { Parameter } from "../Player/Parameter";
-import { CALENDAR } from "../Utils/Calendar";
-import { Player } from "../Player/Player";
+import { LanguageFlag } from "../Game/LanguageFlag";
+import { getUiText, getUiRoundText } from "./Static/UiTexts";
 
 export class UiManager {
+    private _lang: LanguageFlag = new LanguageFlag();
 
-    printFrame(player: Player): void {
-        this.printParameter(player.parameter);
-        this.printAttributes(player.attributeStrings);
-        this.printTime(player.round);
+    private _lastParameter: Parameter = new Parameter();
+    private _lastRoundNumber: number = 0;
+    private _lastAttributeStrings: string[][] = [];
+    private _lastDescriptions: string[] = [];
+    private _lastOptions: Map<number, string[]> = new Map();
+
+    constructor(lang: LanguageFlag = new LanguageFlag()) {
+        this.resetLang(lang);
+        this.resetFrame();
+        this.printFrame();
+    }
+    
+    setLang(lang: LanguageFlag) {
+        this._lang = lang;
+    }
+    
+    resetLang(lang: LanguageFlag): void {
+        this._lang = lang;
+        let langButton = document.getElementById("lang-checker-btn")!;
+        langButton.onclick = () => {
+            this._lang.lang = !this._lang.lang;
+            // Re-print the UI.
+            this.printFrame();
+            this.printParameter(this._lastParameter);
+            this.printTime(this._lastRoundNumber);
+            this.printAttributes(this._lastAttributeStrings);
+            this.reprintEvent();
+        }
+    }
+
+    resetFrame(): void {
+        this.clearContainer(document.getElementById("study-key-span")!);
+        this.clearContainer(document.getElementById("scores-key-span")!);
+        this.clearContainer(document.getElementById("coding-key-span")!);
+        this.clearContainer(document.getElementById("health-key-span")!);
+        this.clearContainer(document.getElementById("time-key-span")!);
+        this.clearContainer(document.getElementById("attribute-key-span")!);
     }
 
     reset(): void {
@@ -20,17 +54,29 @@ export class UiManager {
         this.clearContainer(document.getElementById("attribute-window")!);
         this.clearContainer(document.getElementById("time-value-box")!);
     }
+    
+    printFrame(): void {
+        document.getElementById("study-key-span")!.innerHTML = getUiText("study", this._lang);
+        document.getElementById("scores-key-span")!.innerHTML = getUiText("score", this._lang);
+        document.getElementById("coding-key-span")!.innerHTML = getUiText("coding", this._lang);
+        document.getElementById("health-key-span")!.innerHTML = getUiText("health", this._lang);
+        document.getElementById("time-key-span")!.innerHTML = getUiText("time", this._lang);
+        document.getElementById("attribute-key-span")!.innerHTML = getUiText("attribute", this._lang);
+    }
 
-    async printAndSetupEvent(description: string, options: Map<number, string>): Promise<number> {
+    async printAndSetupEvent(descriptions: string[], options: Map<number, string[]>): Promise<number> {
+        // Update event description and options.
+        this._lastDescriptions = descriptions;
+        this._lastOptions = options;
         // Print event description.
         let eventDescriptionBox = document.getElementById("event-message-box")!;
-        eventDescriptionBox.innerHTML = description;
+        eventDescriptionBox.innerHTML = descriptions[this._lang.lang ? 0 : 1];
         // Setup and print event options.
         let eventOptionsDiv = document.getElementById("event-option-window")!;
         let clickPromises: Promise<number>[] = [];
-        for(let [nextEventId, optionText] of options.entries()) {
+        for(let [nextEventId, [optionTextEn, optionTextZh]] of options.entries()) {
             let nextEventAddr = document.createElement("a");
-            nextEventAddr.text = optionText;
+            nextEventAddr.text = this._lang.lang ? optionTextEn : optionTextZh;
             nextEventAddr.dataset.eventid = nextEventId.toString();
             nextEventAddr.className ="btn";
             eventOptionsDiv.appendChild(nextEventAddr);
@@ -45,7 +91,21 @@ export class UiManager {
         return Promise.any(clickPromises);
     }
 
+    reprintEvent(): void {
+        let eventDescriptionBox = document.getElementById("event-message-box")!;
+        eventDescriptionBox.innerHTML = this._lastDescriptions[this._lang.lang ? 0 : 1];
+        let eventOptionsDiv = document.getElementById("event-option-window")!;
+        for (let optionRaw of eventOptionsDiv.children) {
+            let option: HTMLAnchorElement = optionRaw as HTMLAnchorElement;
+            let optionIndex: number = +(option.dataset.eventid!);
+            let options: string[] = this._lastOptions.get(optionIndex)!
+            option.text = this._lang.lang ? options[0] : options[1];
+        }
+    }
+
     printParameter(parameter: Parameter): void {
+        // Update the last parameter.
+        this._lastParameter = parameter;
         // Update study value.
         let studyValueSpan = document.getElementById("study-value-span")!;
         studyValueSpan.innerHTML = parameter.study.toString();
@@ -61,25 +121,30 @@ export class UiManager {
         healthValueSpan.innerHTML = parameter.health.toString();
     }
 
-    printAttributes(attributeStrings: string[]): void {
+    printAttributes(attributeStrings: string[][]): void {
+        // Update the last attribute strings.
+        this._lastAttributeStrings = attributeStrings;
         let attributeDiv = document.getElementById("attribute-window")!;
         this.clearContainer(attributeDiv);
         for(let attributeString of attributeStrings) {
             let attributeStringText = document.createElement("p");
-            attributeStringText.innerHTML = attributeString;
+            attributeStringText.innerHTML = this._lang.lang ? attributeString[0] : attributeString[1];
             attributeDiv.appendChild(attributeStringText);
         }
     }
 
     printTime(round: number): void {
+        // Update the last round number.
+        this._lastRoundNumber = round;
         let timeValueBox = document.getElementById("time-value-box")!;
-        timeValueBox.innerHTML = this.roundToDisplay(round);
+        timeValueBox.innerHTML = this.roundToDisplay(round, this._lang);
     }
 
     private scoreValueToDisplay(scores: string[]): string {
         let tagStart: string = "<span>", tagEnd: string = "</span>";
         if (scores.length == 0) {
-            return tagStart +  "N/A" + tagEnd;
+            let defaultScore: string = this._lang.lang ? "N/A" : "无";
+            return tagStart +  defaultScore + tagEnd;
         } else {
             let res: string = "";
             for (let i = 0; i < scores.length; ++i) {
@@ -93,15 +158,15 @@ export class UiManager {
     }
 
     private codingValueToDisplay(value: number): string {
-        if (value <= 1) return "Newbie";
-        if (value <= 16) return "Normal";
-        if (value <= 32) return "Experienced";
-        if (value <= 64) return "Master";
-        else return "GrandMaster";
+        if (value <= 4) return this._lang.lang ? "Newbie" : "菜鸡";
+        if (value <= 16) return this._lang.lang ? "Normal" : "普通";
+        if (value <= 32) return this._lang.lang ? "Experienced" : "熟练";
+        if (value <= 64) return this._lang.lang ? "Master" : "大师";
+        else return this._lang.lang ? "GrandMaster" : "宗师";
     }
 
-    private roundToDisplay(value: number): string {
-        return CALENDAR.get(value)!;
+    private roundToDisplay(value: number, lang: LanguageFlag): string {
+        return getUiRoundText(value, lang);
     }
 
     private clearContainer(container: HTMLElement): void {

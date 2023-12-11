@@ -12,9 +12,9 @@ export class EventDecorator {
     }
 
     decorateEvent(event: Event, player: Player, vars: Map<string, string>): void {
-        let renderedOptions = new Map<number, string>();
-        for (let [key, value] of event.options.entries()) {
-            renderedOptions.set(key, this.stringRender(value, vars));
+        let renderedOptions = new Map<number, string[]>();
+        for (let [key, [valueEn, valueZh]] of event.options.entries()) {
+            renderedOptions.set(key, [this._render.render(valueEn, vars), this._render.render(valueZh, vars)]);
         }
 
         if (OPTION_MASK_MAP.has(event.id)) {
@@ -22,10 +22,8 @@ export class EventDecorator {
             renderedOptions = OPTION_MASK_MAP.get(event.id)!(renderedOptions, player);
         }
         event.options = renderedOptions;
-        event.description = this.stringRender(event.description, vars);
-    }
-
-    private stringRender(input: string, vars: Map<string, string>): string {
-        return this._render.render(input, vars);
+        let renderedDescriptionEn: string = this._render.render(event.descriptions[0], vars);
+        let renderedDescriptionZh: string = this._render.render(event.descriptions[1], vars);
+        event.descriptions = [renderedDescriptionEn, renderedDescriptionZh];
     }
 }

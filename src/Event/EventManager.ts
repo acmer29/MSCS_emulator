@@ -16,25 +16,25 @@ export class EventManager {
         this._render = new EventDecorator();
     }
 
-    executeEvent(id: number, player: Player, context: any = null): [string, Map<number, string>] {
+    executeEvent(id: number, player: Player, context: any = null): [string[], Map<number, string[]>] {
         let event: Event = this.serveEvent(id);
         let vars: Map<string, string> = event.handler(player, context);
         this._render.decorateEvent(event, player, vars);
-        return [event.description, event.options];
+        return [event.descriptions, event.options];
     }
 
     serveEvent(id: number): Event {
         console.log("Demands " + id);
         if (UNEXECUTABLE_EVENT_IDS.includes(id)) {
             console.log("Unexecutable event " + id + " should not be served, please debug");
-            return new Event(id, "Unexecutable event " + id.toString(), new Map<number, string>(), noopHandler);
+            return new Event(id, ["Unexecutable event " + id.toString(), ""], new Map<number, string[]>(), noopHandler);
         }
-
-        let description: string = DESCRIPTION_TEXTS_MAP.get(id)!;
-        let optionsRaw: [number, string][] = OPTION_TEXT_MAP.get(id)!;
-        let options: Map<number, string> = new Map<number, string>();
-        for (let [nextId, text] of optionsRaw) {
-            options.set(nextId, text);
+        
+        let descriptions: string[] = DESCRIPTION_TEXTS_MAP.get(id)!;
+        let optionsRaw: [number, string, string][] = OPTION_TEXT_MAP.get(id)!;
+        let options: Map<number, string[]> = new Map<number, string[]>();
+        for (let [nextId, textEn, textZh] of optionsRaw) {
+            options.set(nextId, [textEn, textZh]);
         }
         let handler: (player: Player, context: any) => Map<string, string> = noopHandler;
         if (!EVENT_HANDLER_MAP.has(id)) {
@@ -43,7 +43,7 @@ export class EventManager {
             console.log("Serving " + id);
             handler = EVENT_HANDLER_MAP.get(id)!;
         }
-        let event = new Event(id, description, options, handler);
+        let event = new Event(id, descriptions, options, handler);
         return event;
     }
 

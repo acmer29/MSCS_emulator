@@ -15,11 +15,11 @@ export class AttributeManager {
         return this._activatedAttribute.map((attribute) => attribute.id);
     }
 
-    displayVisibleActivatedAttribute(): string[] {
-        let res: string[] = [];
+    getVisibleActivatedAttributeDescriptions(): string[][] {
+        let res: string[][] = [];
         for(let attribute of this._activatedAttribute) {
             if (attribute.isVisible) {
-                res.push(attribute.description);
+                res.push(attribute.descriptions);
             }
         }
         return res;
@@ -58,9 +58,10 @@ export class AttributeManager {
                 continue;
             }
             let attributeRaw = ATTRIBUTE_TEXT_MAP.get(id)!;
-            let title: string = attributeRaw[0];
-            let isVisible: boolean = attributeRaw[1];
-            let buffMapRaw: number[] = attributeRaw[2];
+            let titleEn: string = attributeRaw[0];
+            let titleZh: string = attributeRaw[1];
+            let isVisible: boolean = attributeRaw[2];
+            let buffMapRaw: number[] = attributeRaw[3];
             let buffMap: Map<string, number> = new Map<string, number>([
                 ["study", buffMapRaw[0]],
                 ["coding", buffMapRaw[1]],
@@ -76,7 +77,7 @@ export class AttributeManager {
                 ["working", debuffMapRaw[3]],
                 ["interview", debuffMapRaw[4]],
             ]);
-            let attribute: Attribute = new Attribute(id, title, isVisible, buffMap, debuffMapMap);
+            let attribute: Attribute = new Attribute(id, [titleEn, titleZh], isVisible, buffMap, debuffMapMap);
             this._activatedAttribute.push(attribute);
         }
     }

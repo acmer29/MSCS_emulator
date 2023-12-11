@@ -1,6 +1,6 @@
 export class Attribute {
     private _id: number;
-    private _description: string;
+    private _descriptions: string[];
     private _isVisible: boolean;
     private _parameterBuffMap: Map<string, number>;
     private _parameterDebuffMap: Map<string, number>;
@@ -13,12 +13,12 @@ export class Attribute {
         return this._id;
     }
 
-    set description(value: string) {
-        this._description = value;
+    set descriptions(value: string[]) {
+        this._descriptions = value;
     }
 
-    get description() {
-        return this._description;
+    get descriptions() {
+        return this._descriptions;
     }
 
     set isVisible(value: boolean) {
@@ -47,12 +47,12 @@ export class Attribute {
 
     constructor(
         id: number,
-        description: string,
+        descriptions: string[],
         isVisible: boolean, 
         parameterBuffMap: Map<string, number>,
         parameterDebuffMap: Map<string, number>) {
         this._id = id;
-        this._description = description;
+        this._descriptions = descriptions;
         this._isVisible = isVisible;
         this._parameterBuffMap = parameterBuffMap;
         this._parameterDebuffMap = parameterDebuffMap;

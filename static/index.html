@@ -12,20 +12,20 @@
         <div class="top-panel">
             <div id="parameter-window">
                 <div id="study-window">
-                    Study <span id="study-value-span"></span>
+                    <span id="study-key-span">学习</span> <span id="study-value-span"></span>
                 </div>
                 <div id="scores-window">
-                    Grade <span id="scores-value-span"></span>
+                    <span id="scores-key-span">scores</span> <span id="scores-value-span"></span>
                 </div>
                 <div id="coding-window">
-                    Coding <span id="coding-value-span"></span>
+                    <span id="coding-key-span">coding</span> <span id="coding-value-span"></span>
                 </div>
                 <div id="health-window">
-                    Sanity <span id="health-value-span"></span>
+                    <span id="health-key-span">health</span> <span id="health-value-span"></span>
                 </div>
             </div>
             <div id="time-window">
-                Current Time
+                <span id="time-key-span">time</span>
                 <p id="time-value-box"></p>
             </div>
         </div>
@@ -38,9 +38,20 @@
         </div>
         <div class="bottom-panel">
             <div>
-                Attribute
+                <span id="attribute-key-span">attribute</span>
                 <div id="attribute-window"></div>
             </div>
+        </div>
+    </div>
+    <div id="footer" class="container">
+        <div id="lang-checker-window">
+            <input type="checkbox" id="lang-checker-btn">
+            <label for="lang-checker-btn">
+                <span class="lang-label-track">
+                    <span class="lang-label-txt"></span>
+                </span>
+                <span class="lang-label-thumb"></span>
+            </label>
         </div>
     </div>
     <script src="./bundle.js"></script>

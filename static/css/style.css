@@ -1,5 +1,11 @@
+:root {
+    --lang-checker-sz: 12px;
+    --lang-checker-tr: all 0.25s ease 0s;
+}
+
 body {
     min-height: 100%;
+    font-size: 18px;
     background-color: #000E54;
 }
 
@@ -89,3 +95,139 @@ a.btn:active {
     color: rgb(171, 64, 237);
     font-weight: bold;
 }
+
+/* footer toggle button css start. */
+input {
+    display: none;
+}
+
+#lang-checker-window {
+    position: relative;
+    width: calc(var(--lang-checker-sz) * 4);
+    height: calc(var(--lang-checker-sz) * 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+label[for=lang-checker-btn] {
+    position: absolute;
+    width: calc(var(--lang-checker-sz) * 4);
+    height: calc(var(--lang-checker-sz) * 2);
+    background: linear-gradient(180deg, #888, #fff);
+    border-radius: var(--lang-checker-sz);
+    padding: calc(var(--lang-checker-sz) / 5);
+  }	
+
+#lang-checker-btn:checked + label[for=lang-checker-btn] {
+    box-shadow: 
+        0 calc(var(--lang-checker-sz) / 50) calc(var(--lang-checker-sz) / 5) #fff9, 
+        0 0 calc(var(--lang-checker-sz) / 50) calc(var(--lang-checker-sz) / 50) #0002;
+}
+
+label[for=lang-checker-btn]:after {
+    content: "";
+    position: absolute;
+    width: calc(100% - calc(calc(var(--lang-checker-sz) / 5) * 12));
+    height: calc(100% - calc(calc(var(--lang-checker-sz) / 5) * 2));
+    border-radius: var(--lang-checker-sz);
+    z-index: 0;
+    opacity: 0;
+    transition: var(--lang-checker-tr);
+}
+
+#lang-checker-btn:checked + label[for=lang-checker-btn]:after {
+    opacity: 1;
+    width: calc(100% - calc(calc(var(--lang-checker-sz) / 5) * 4));
+}
+
+.lang-label-track {
+    position: absolute;
+    width: calc(calc(var(--lang-checker-sz) * 4) - calc(var(--sz) / 2.5));
+    height: calc(calc(var(--lang-checker-sz) * 2) - calc(var(--sz) / 2.5));
+    border-radius: var(--lang-checker-sz);
+    overflow: hidden;
+}
+
+.lang-label-track:before {
+    content: "";
+    position: absolute;
+    width: calc(200% - calc(calc(var(--lang-checker-sz) * 2) - calc(var(--lang-checker-sz) / 3)));
+    height: 100%;
+    left: -50%;
+    transition: var(--lang-checker-tr);
+    background: linear-gradient(90deg, grey 50%, grey 50%);
+}
+  
+.lang-label-track:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--lang-checker-sz);
+    box-shadow: 0 calc(var(--lang-checker-sz) / -10) calc(var(--lang-checker-sz) / 10) 0 #0005 inset, 0 calc(var(--lang-checker-sz) / 10) calc(var(--lang-checker-sz) / 10) 0 #0005 inset;
+}
+  
+#lang-checker-btn:checked + label .lang-label-track:before {
+    left: 0%;
+}
+
+.lang-label-thumb {
+    position: absolute;
+    width: calc(calc(var(--lang-checker-sz) * 2) - calc(var(--lang-checker-sz) / 3));
+    height: calc(calc(var(--lang-checker-sz) * 2) - calc(var(--lang-checker-sz) / 3));
+    top: calc(calc( var(--lang-checker-sz) / 10) + calc(var(--lang-checker-sz) / 15));
+    left: calc(calc( var(--lang-checker-sz) / 10) + calc(var(--lang-checker-sz) / 15));
+    background: linear-gradient(180deg, #fff, #afafaf);
+    border-radius: var(--lang-checker-sz);
+    cursor: pointer;
+    font-size: calc(var(--lang-checker-sz) / 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-indent: calc(var(--lang-checker-sz) * -0.025);
+    color: #7d7c7c;
+    z-index: 1;
+}
+  
+#lang-checker-btn:checked + label .lang-label-thumb {
+    left: calc(calc(100% - calc(calc(var(--lang-checker-sz) * 2) - calc(var(--lang-checker-sz) / 3))) - calc(calc( var(--lang-checker-sz) / 10) + calc(var(--lang-checker-sz) / 15)));
+    color: grey;
+    background: linear-gradient(180deg, #fff, #afafaf);
+    text-shadow: 
+      0 0 calc(var(--lang-checker-sz) / 10) grey, 0 0 calc(var(--lang-checker-sz) / 5) #fff, 
+      calc(var(--lang-checker-sz) / -8000) calc(var(--lang-checker-sz) / -150) calc(var(--lang-checker-sz) / 50) #0008, 
+      calc(var(--lang-checker-sz) / 150) calc(var(--lang-checker-sz) / 100) calc(var(--lang-checker-sz) / 50) #fff;
+}
+  
+.lang-label-thumb:before {
+    content: "";
+    display: block;
+    width: 70%;
+    height: 70%;
+    background: linear-gradient(180deg, #0008, #ccc, #fff);
+    position: absolute;
+    z-index: -1;
+    border-radius: var(--lang-checker-sz);
+    border: calc(var(--lang-checker-sz) / 50) solid #ddd;
+}
+
+.lang-label-txt:before, 
+.lang-label-txt:after {
+  content: "";
+  position: absolute;
+  left: calc(var(--lang-checker-sz) / 2);
+  top: 25%;
+  content: "中";
+  transition: var(--lang-checker-tr);
+  font-size: calc(var(--lang-checker-sz) / 1.5);
+  color: #000;
+  opacity: 0.4;
+  text-shadow: 0px -1px 1px #000, 0px 1px 2px #fff;
+}
+
+.lang-label-txt:after {
+  content: "EN";
+  left: calc(100% - calc(var(--lang-checker-sz)));
+}
+/* footer toggle button css end. */
