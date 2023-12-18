@@ -53,5 +53,5 @@ export const CALENDAR = new Map<number, string>([
 ]);
 
 export function isInVacation(round: number): boolean {
-    return CALENDAR.get(round)!.includes("Break");
+    return CALENDAR.get(round)!.includes("Break") && CALENDAR.get(round)!.includes("OPT");
 }
