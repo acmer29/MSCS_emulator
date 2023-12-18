@@ -8,6 +8,8 @@ const UI_TEXTS_MAP_EN: Map<string, string> = new Map<string, string>([
     [`health`, `Sanity`],
     [`time`, `Current Time`],
     [`attribute`, `Attribute`],
+    [`rule`, `Rule`],
+    [`rule-close`, `I see`],
 ]);
 
 const UI_TEXTS_MAP_ZH: Map<string, string> = new Map<string, string>([
@@ -16,8 +18,53 @@ const UI_TEXTS_MAP_ZH: Map<string, string> = new Map<string, string>([
     [`coding`, `刷题力`],
     [`health`, `身心健康`],
     [`time`, `当前时间`],
-    [`attribute`, `人物特性`],
+    [`attribute`, `人物属性`],
+    [`rule`, `游戏规则`],
+    [`rule-close`, `原来如此`],
 ]);
+
+export const RULE_HTML_EN: string = 
+`<p>Complete the MSCS program and get at least one offer before the last summer!</p>
+<ul>
+    <li class="diamond">
+        To survive the semester, you have to get C or better grade in final.
+    </li>
+    <li class="diamond">
+        The school will drop you if you get C in more than one semester.
+    </li>
+    <li class="diamond">
+        If your sanity droppes to zero or below, you will decide to end the MSCS
+        program by yourself. So slack off if it needs to.
+    </li>
+    <li class="diamond">
+        Send resume will not ensure a followup, but there's no free oppourtunity
+        if you do not take the first step.
+    </li>
+    <li class="diamond">
+        If you find it's hard to win, that's expected, as it is the same in the
+        real life.
+    </li>
+</ul>`;
+
+export const RULE_TEXT_ZH: string = 
+`<p>顺利完成美研CS项目, 并且在最后一个暑假结束前拿到全职offer吧!</p>
+<ul>
+    <li class="diamond">
+        每学期的期末绩点需要保持在C以上, 否则会被退学.
+    </li>
+    <li class="diamond">
+        如果期末绩点第二次为C, 也会被退学.
+    </li>
+    <li class="diamond">
+        如果身心健康降到0或以下, 你将放弃学业自愿回国, 所以必要的时候该摸鱼就摸鱼吧.
+    </li>
+    <li class="diamond">
+        投简历并不保证会有面试, 但不投肯定没有. 
+    </li>
+    <li class="diamond">
+        如果你觉得游戏太难, 请理解美研CS学生生活本就如此. 
+    </li>
+</ul>`;
 
 export function getUiText(key: string, lang: LanguageFlag): string {
     if (lang.lang) {
@@ -52,6 +99,8 @@ export function getUiRoundText(key: number, lang: LanguageFlag): string {
             semester = "寒假";
         } else if (roundEngString.includes("Summer Break")) {
             semester = "暑假";
+        } else if (roundEngString.includes("OPT Grace Period")) {
+            semester = "OPT签证过渡期"
         }
 
         let period: string = "";
@@ -89,14 +138,14 @@ export function getUiRoundText(key: number, lang: LanguageFlag): string {
         }
 
         let year: string = "";
-        if (roundEngString.includes("Y1")) {
+        if (roundEngString.includes("Year I")) {
             year = "第一年";
-        } else if (roundEngString.includes("Y2")) {
+        } else if (roundEngString.includes("Year II")) {
             year = "第二年";
-        } else if (roundEngString.includes("Y3")) {
+        } else if (roundEngString.includes("Year III")) {
             year = "第三年";
         }
 
-        return semester + ", " + year + month + period;
+        return semester + ", " + year + " " + month + period;
     }
 }

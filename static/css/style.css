@@ -1,233 +1,297 @@
-:root {
-    --lang-checker-sz: 12px;
-    --lang-checker-tr: all 0.25s ease 0s;
+/* Media queries. */
+@media screen and ( width <= 700px ) {
+    body {
+        font-size: 1.0em;
+    }
+    .content:before {
+        left: 45px;
+    }
+    .top-panel, .middle-panel, .bottom-panel, .time-panel {
+        padding-left: 50px;
+    }
 }
 
+@media screen and ( width >= 700px ) {
+    body {
+        font-size: 1.2em;
+    }
+    .content:before {
+        left: 80px;
+    }
+    
+    .top-panel, .middle-panel, .bottom-panel, .time-panel {
+        padding-left: 85px;
+    }
+}
+
+/* General components style starts. */
 body {
     min-height: 100%;
-    font-size: 18px;
-    background-color: #000E54;
+    margin: 0;
+    background-color: #B7B7B7;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.container {
-    background-color: #FFFFFF;
-    width: 100%;
-    max-width: 720px;
-    margin: 0 auto;
+.content {
+    box-shadow: 5px 3px 4px #303030;
     display: flex;
     flex-direction: column;
 }
 
+.content:before {
+    content: '';
+    width: 2px;
+    height: 100%;
+    top: 0px;
+    position: absolute;
+    background-color: rgba(255,0,0,0.6);
+    z-index: 2;
+}
+
+.container, .footer {
+    margin: 10px auto;
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+}
+
+.footer {
+    margin-top: 8px;
+}
+/* General components style ends. */
+
+/* Top components style starts. */
 .top-panel {
     display: flex;
     flex-direction: row;
-    margin: 0;
-    min-height: 80px;
+    min-height: 60px;
+    background-color: #FFF;
 }
 
-#parameter-window {
-    border: 3px solid #FF0000;
-    width: 50%;
+.top-qual {
+    margin-left: -1px;
     display: flex;
     flex-direction: column;
-}
-
-#time-window {
-    border: 3px solid #FF0000;
-    width: 50%;
-}
-
-.middle-panel {
-    min-height: 240px;
-    border: 3px solid #00FF00;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-}
-
-#event-message-window {
-    flex-grow: 1;
-}
-
-a.btn {
-    display: block;
-    margin: 2px;
-    border: 3px solid orange;
-    color: grey;
-}
-
-a.btn:hover {
-    color: black;
-}
-
-a.btn:active {
-    border-color: blue;
-}
-
-.bottom-panel {
-    min-height: 120px;
-    display: flex;
-    flex-direction: row;
-    border: 3px solid #0000FF;
-}
-
-#attribute-window {
-    display: flex;
-    flex-direction: column;
-}
-
-.study-F {
-    color: #FF0000;
-    font-weight: bold;
-}
-
-.study-C {
-    color: #FCBA03;
-    font-weight: bold;
-}
-
-.study-B {
-    color: #04B04B;
-    font-weight: bold;
-}
-
-.study-A {
-    color: rgb(171, 64, 237);
-    font-weight: bold;
-}
-
-/* footer toggle button css start. */
-input {
-    display: none;
-}
-
-#lang-checker-window {
-    position: relative;
-    width: calc(var(--lang-checker-sz) * 4);
-    height: calc(var(--lang-checker-sz) * 2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-label[for=lang-checker-btn] {
-    position: absolute;
-    width: calc(var(--lang-checker-sz) * 4);
-    height: calc(var(--lang-checker-sz) * 2);
-    background: linear-gradient(180deg, #888, #fff);
-    border-radius: var(--lang-checker-sz);
-    padding: calc(var(--lang-checker-sz) / 5);
-  }	
-
-#lang-checker-btn:checked + label[for=lang-checker-btn] {
-    box-shadow: 
-        0 calc(var(--lang-checker-sz) / 50) calc(var(--lang-checker-sz) / 5) #fff9, 
-        0 0 calc(var(--lang-checker-sz) / 50) calc(var(--lang-checker-sz) / 50) #0002;
-}
-
-label[for=lang-checker-btn]:after {
-    content: "";
-    position: absolute;
-    width: calc(100% - calc(calc(var(--lang-checker-sz) / 5) * 12));
-    height: calc(100% - calc(calc(var(--lang-checker-sz) / 5) * 2));
-    border-radius: var(--lang-checker-sz);
-    z-index: 0;
-    opacity: 0;
-    transition: var(--lang-checker-tr);
-}
-
-#lang-checker-btn:checked + label[for=lang-checker-btn]:after {
-    opacity: 1;
-    width: calc(100% - calc(calc(var(--lang-checker-sz) / 5) * 4));
-}
-
-.lang-label-track {
-    position: absolute;
-    width: calc(calc(var(--lang-checker-sz) * 4) - calc(var(--sz) / 2.5));
-    height: calc(calc(var(--lang-checker-sz) * 2) - calc(var(--sz) / 2.5));
-    border-radius: var(--lang-checker-sz);
-    overflow: hidden;
-}
-
-.lang-label-track:before {
-    content: "";
-    position: absolute;
-    width: calc(200% - calc(calc(var(--lang-checker-sz) * 2) - calc(var(--lang-checker-sz) / 3)));
-    height: 100%;
-    left: -50%;
-    transition: var(--lang-checker-tr);
-    background: linear-gradient(90deg, grey 50%, grey 50%);
-}
-  
-.lang-label-track:after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--lang-checker-sz);
-    box-shadow: 0 calc(var(--lang-checker-sz) / -10) calc(var(--lang-checker-sz) / 10) 0 #0005 inset, 0 calc(var(--lang-checker-sz) / 10) calc(var(--lang-checker-sz) / 10) 0 #0005 inset;
-}
-  
-#lang-checker-btn:checked + label .lang-label-track:before {
-    left: 0%;
-}
-
-.lang-label-thumb {
-    position: absolute;
-    width: calc(calc(var(--lang-checker-sz) * 2) - calc(var(--lang-checker-sz) / 3));
-    height: calc(calc(var(--lang-checker-sz) * 2) - calc(var(--lang-checker-sz) / 3));
-    top: calc(calc( var(--lang-checker-sz) / 10) + calc(var(--lang-checker-sz) / 15));
-    left: calc(calc( var(--lang-checker-sz) / 10) + calc(var(--lang-checker-sz) / 15));
-    background: linear-gradient(180deg, #fff, #afafaf);
-    border-radius: var(--lang-checker-sz);
-    cursor: pointer;
-    font-size: calc(var(--lang-checker-sz) / 2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-indent: calc(var(--lang-checker-sz) * -0.025);
-    color: #7d7c7c;
+    width: 25%;
+    box-shadow: 2px 1px 2px 2px #E8E8E8;
     z-index: 1;
 }
-  
-#lang-checker-btn:checked + label .lang-label-thumb {
-    left: calc(calc(100% - calc(calc(var(--lang-checker-sz) * 2) - calc(var(--lang-checker-sz) / 3))) - calc(calc( var(--lang-checker-sz) / 10) + calc(var(--lang-checker-sz) / 15)));
+
+.time-panel {
+    padding-top: 10px;
+    background-color: #FFF;
+    min-height: 40px;
+}
+
+.time-text {
     color: grey;
-    background: linear-gradient(180deg, #fff, #afafaf);
-    text-shadow: 
-      0 0 calc(var(--lang-checker-sz) / 10) grey, 0 0 calc(var(--lang-checker-sz) / 5) #fff, 
-      calc(var(--lang-checker-sz) / -8000) calc(var(--lang-checker-sz) / -150) calc(var(--lang-checker-sz) / 50) #0008, 
-      calc(var(--lang-checker-sz) / 150) calc(var(--lang-checker-sz) / 100) calc(var(--lang-checker-sz) / 50) #fff;
+    font-weight: bold;
 }
-  
-.lang-label-thumb:before {
-    content: "";
+
+.parameter-key-text {
+    margin: 8px;
+    color: brown;
+    font-weight: bold;
+}
+
+.paramter-value-text {
+    margin: 4px 0 auto 8px;
+}
+/* Top components style ends. */
+
+/* Middle components style starts. */
+.middle-panel {
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    background-image: repeating-linear-gradient(white 0px, white 24px, teal 25px);
+}
+
+.event-message-window {
+    flex-grow: 1;
+    margin: 0 5px;
+}
+
+.event-message {
+    font-size: 18px;
+    margin-top: 5px;
+    line-height: 25px;
+}
+
+a.event-option-btn {
+    text-align: center;
     display: block;
-    width: 70%;
-    height: 70%;
-    background: linear-gradient(180deg, #0008, #ccc, #fff);
+    margin: 8px;
+    border: 3px dashed grey;
+    color: brown;
+    font-size: 18px;
+    background-color: #FFF;
+}
+
+a.event-option-btn:hover {
+    border: 3px brown;
+    border-style: dashed solid solid solid;
+    color: #000;
+}
+
+a.event-option-btn:active {
+    border: 3px brown;
+    border-style: solid solid solid solid;
+    color: #000;
+}
+/* Middle component style ends. */
+
+/* Bottom component style starts. */
+.bottom-panel {
+    min-height: 120px;
+    background-color: #FFF;
+    position: relative;
+}
+
+ul {
+    margin-top: 0;
+    position: relative;
+    list-style: none;
+    padding: 3px 0 2px 25px;
+}
+
+li.diamond {
+    position: relative;
+    padding: 2px 0 2px 18px;
+}
+
+li.diamond::before {
+    content: "";
+    position: absolute; 
+    left: 0px; 
+    top: 2px; 
+    border: 5px solid transparent; 
+    border-bottom-color: brown;
+  }
+  
+li.diamond::after { 
+    content: ""; 
+    position: absolute; 
+    left: 0px; 
+    top: 12px; 
+    border: 5px solid transparent; 
+    border-top-color: brown;
+}
+
+img.su-seal {
     position: absolute;
-    z-index: -1;
-    border-radius: var(--lang-checker-sz);
-    border: calc(var(--lang-checker-sz) / 50) solid #ddd;
+    right: 0px;
+    bottom: 0px;
+    max-height: 120px;
+    opacity: 0.1;
+}
+/* Bottom component style ends. */
+
+/* Footer component style starts. */
+.copyright {
+    position: absolute;
+    top: 0;
+    left: 35%;
+    margin: 0;
+    color: brown;
+    font-weight: 600;
 }
 
-.lang-label-txt:before, 
-.lang-label-txt:after {
-  content: "";
-  position: absolute;
-  left: calc(var(--lang-checker-sz) / 2);
-  top: 25%;
-  content: "中";
-  transition: var(--lang-checker-tr);
-  font-size: calc(var(--lang-checker-sz) / 1.5);
-  color: #000;
-  opacity: 0.4;
-  text-shadow: 0px -1px 1px #000, 0px 1px 2px #fff;
+#rule-btn {
+    text-decoration: underline;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    color: brown;
+    font-weight: 600;
 }
 
-.lang-label-txt:after {
-  content: "EN";
-  left: calc(100% - calc(var(--lang-checker-sz)));
+/* Footer toggle button css starts. */
+.lang-switch {
+    position: relative;
+    display: inline-block;
+    width: 58px;
+    height: 30px;
+    left: 10px;
 }
-/* footer toggle button css end. */
+
+.lang-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #CCC;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 23px;
+    width: 23px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #FFF;
+    border-radius: 50%;
+    transition: 0.4s, 0.4s background-position;
+    z-index: 2;
+}
+
+input:checked + .slider {
+    background-color: #CCC;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #CCC;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.switch-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-60%);
+    font-size: 12px;
+    z-index: 1;
+    font-weight: bold;
+}
+
+.switch-text-left {
+    margin-left: 8px
+}
+
+.switch-text-right {
+    margin-left: 32px
+}
+/* Footer toggle button css ends. */
+/* Footer component style ends. */
+
+/* Modal style starts. */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 3; 
+    padding-top: 100px;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    background-color: rgba(0,0,0,0.4); /* Black with opacity */
+}
+
+.modal-content {
+    background-color: #FFF;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid brown;
+    max-width: 600px;
+}
+/* Modal style ends. */

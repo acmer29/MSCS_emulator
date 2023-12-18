@@ -5,6 +5,7 @@ import { SUMMER_I_ROUNDS } from "../Game/RoundConstants";
 import { Player } from "../Player/Player";
 import { getNormalDistributedInt, getRandomInt } from "../Utils/Rng";
 import { CONDITION_FALSE, CONDITION_TRUE } from "../Utils/SimpleTemplateRender";
+import { DisplayNumber } from "../Utils/UtilFns";
 
 const DEFAULT_EMPTY_MAP: Map<string, string> = new Map<string, string>();
 
@@ -159,8 +160,8 @@ function handler6(player: Player): Map<string, string> {
         if (tmp > 100) {
             tmp = 100;
         }
-        subjects.push(tmp.toString());
         score += tmp;
+        subjects.push(DisplayNumber(tmp));
     }
     score /= 3;
     console.log("final score is " + score);

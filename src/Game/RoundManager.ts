@@ -5,7 +5,6 @@ import { PlayerStatus } from "../Player/PlayerConstants";
 import { COMPULSORY_EVENT_ROUNDS, GAME_START_ROUND, SUMMER_I_ROUNDS } from "./RoundConstants";
 import { COMPULSORY_EVENT_IDS, FINAL_TEST_START_EVENT_ID, GAME_OVER_EVENTS_MAP, GAME_START_EVENT_ID, IN_PHASE_END_EVENT_ID, JOBHUNTING_EVENT_ID, NORMAL_EVENT_ID, PHASE_END_EVENT_ID, RETURN_OFFER_EVAL_START_EVENT_ID } from "../Event/EventConstants";
 import { getRandomInt } from "../Utils/Rng";
-import { LanguageFlag } from "./LanguageFlag";
 
 enum RoundPhases {
     INVALID,
@@ -115,6 +114,11 @@ export class RoundManager {
         // P4: If has internship and it is last round of summer 1, transit to compulsory event phase.
         if (SUMMER_I_ROUNDS[SUMMER_I_ROUNDS.length - 1] == this._player.round && this._player.attributeIds.includes(11)) {
             return RoundPhases.COMPULSORY_EVENT_PHASE;
+        }
+
+        // Print SU theme now if property contains SU.
+        if (this._player.attributeIds.includes(5)) {
+            this._ui.printSuTheme();
         }
 
         // Default: Normal event phase.

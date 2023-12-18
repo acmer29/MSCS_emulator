@@ -388,9 +388,9 @@ export const DESCRIPTION_TEXTS_MAP: Map<number, string[]> = new Map([
     [200, [`Congratulations! You graduated from school with dipolma (somewhat unimportant) <br>
         AND a shiney accepted offer letter from an IT company!<br>
         Your OPT application has been approved, bon voyage on your new jouney!`, 
-        `祝贺你! 你顺利的完成了学校的美研CS项目(当然并不重要)<br>
+        `祝贺你! 你顺利的完成了贵校的美研CS项目(这并不重要)<br>
         并且成功的拿到了全职软件开发工程师的offer!<br>
-        你的OPT申请已经通过, 祝你接下来一路顺风!`]],
+        你的OPT申请已经通过, 祝你一路顺风!`]],
     // Good end events end.
     // Bad end events start.
     [500, [`You decide not to proceed MSCS in US.`, 
