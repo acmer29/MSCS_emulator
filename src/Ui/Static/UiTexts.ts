@@ -30,9 +30,6 @@ export const RULE_HTML_EN: string =
         To survive the semester, you have to get C or better grade in final.
     </li>
     <li class="diamond">
-        The school will drop you if you get C in more than one semester.
-    </li>
-    <li class="diamond">
         If your sanity droppes to zero or below, you will decide to end the MSCS
         program by yourself. So slack off if it needs to.
     </li>
@@ -51,9 +48,6 @@ export const RULE_TEXT_ZH: string =
 <ul>
     <li class="diamond">
         每学期的期末绩点需要保持在C以上, 否则会被退学.
-    </li>
-    <li class="diamond">
-        如果期末绩点第二次为C, 也会被退学.
     </li>
     <li class="diamond">
         如果身心健康降到0或以下, 你将放弃学业自愿回国, 所以必要的时候该摸鱼就摸鱼吧.

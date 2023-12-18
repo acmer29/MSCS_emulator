@@ -174,8 +174,9 @@ function handler6(player: Player): Map<string, string> {
         grade = "A-";
     } else if (score >= 75) {
         grade = "B";
-    } else if (score >= 60) {
         player.modifyParameter("health", -2, 6);
+    } else if (score >= 60) {
+        player.modifyParameter("health", -4, 6);
         grade = "C";
     }
     player.parameter.scores.push(grade);

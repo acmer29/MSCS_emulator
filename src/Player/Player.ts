@@ -118,8 +118,7 @@ export class Player {
     checkVitals() {
         if (this._parameter.health <= 0) {
             this._status = PlayerStatus.DIED;
-        } else if (this._parameter.scores.filter(score => score == "C").length >= 2 || 
-                this._parameter.scores.filter(score => score == "F").length >= 1) {
+        } else if (this._parameter.scores.filter(score => score == "F").length >= 1) {
             this._status = PlayerStatus.DROPPED;
         } else if (this._round >= 40 && 
                 this.attributeIds.filter((attribute) => attribute == 12 || attribute == 13).length > 0) {
