@@ -3,11 +3,12 @@ import { LanguageFlag } from "../Game/LanguageFlag";
 import { getUiText, getUiRoundText, RULE_HTMLS, ATTRIBUTE_DESCRIPTION_MAP, ATTRIBUTE_DESCRIPTION_GENERAL_TEXT } from "./Static/UiTexts";
 import { DisplayNumber } from "../Utils/UtilFns";
 import { SuThemePrinter } from "./SUTheme";
+import { MAX_STUDY } from "../Player/PlayerConstants";
 
 export class UiManager {
     private _lang: LanguageFlag = new LanguageFlag();
 
-    private _lastParameter: Parameter = new Parameter();
+    private _lastParameter: Parameter = new Parameter(101);
     private _lastRoundNumber: number = -1;
     private _lastAttributeStrings: string[][] = [];
     private _lastDescriptions: string[] = [];
@@ -34,7 +35,10 @@ export class UiManager {
             this._lang.lang = !this._lang.lang;
             // Re-print the UI.
             this.printFrame();
-            this.printParameter(this._lastParameter);
+            // Only after the last parameter is indeed acquired do we reprint the parameter.
+            if (this._lastParameter.study <= MAX_STUDY) {
+                this.printParameter(this._lastParameter);
+            }
             this.printTime(this._lastRoundNumber);
             this.printAttributes(this._lastAttributeStrings);
             this.reprintEvent();
@@ -68,7 +72,7 @@ export class UiManager {
         this._lastAttributes = [];
         this._lastDescriptions = [];
         this._lastOptions = new Map();
-        this._lastParameter = new Parameter();
+        this._lastParameter = new Parameter(101);
         this._lastRoundNumber = -1;
     }
 
