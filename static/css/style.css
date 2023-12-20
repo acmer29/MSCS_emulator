@@ -1,5 +1,5 @@
 /* Media queries. */
-@media screen and ( width <= 700px ) {
+@media screen and ( width <= 725px ) {
     body {
         font-size: 1.0em;
     }
@@ -15,9 +15,12 @@
     .modal-content {
         max-width: 80%;
     }
+    .copyright {
+        left: 20%;
+    }
 }
 
-@media screen and ( width >= 700px ) {
+@media screen and ( width >= 725px ) {
     body {
         font-size: 1.2em;
     }
@@ -33,6 +36,9 @@
     }
     .modal-content {
         max-width: 600px;
+    }
+    .copyright {
+        left: 32%;
     }
 }
 
@@ -202,7 +208,6 @@ img.su-seal {
 .copyright {
     position: absolute;
     top: 0;
-    left: 30%;
     margin: 0;
     color: brown;
     font-weight: 600;
