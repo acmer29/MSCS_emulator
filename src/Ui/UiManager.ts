@@ -22,6 +22,7 @@ export class UiManager {
         this.resetFrame();
         this.printFrame();
         this.printRuleModal();
+        this.setupModals();
     }
     
     setLang(lang: LanguageFlag) {
@@ -205,11 +206,6 @@ export class UiManager {
         attributeCloseBtn.onclick = () => {
             attributeModal.style.display = "none";
         };
-        window.onclick = function(event) {
-            if (event.target == attributeModal) {
-                attributeModal.style.display = "none";
-            }
-        }
         this.reprintAttributeModal();
     }
 
@@ -229,6 +225,19 @@ export class UiManager {
             let descriptions: string[] = ATTRIBUTE_DESCRIPTION_MAP.get(attributeId)!;
             attributeDescriptionItem.innerHTML = this._lang.lang ? descriptions[0] : descriptions[1];
             attributeDescriptionUl.append(attributeDescriptionItem);
+        }
+    }
+
+    private setupModals(): void {
+        let ruleModal = document.getElementById("rule-modal-window")!;
+        let attributeModal = document.getElementById("attribute-modal-window")!;
+        window.onclick = function(event) {
+            if (event.target == attributeModal) {
+                attributeModal.style.display = "none";
+            }
+            if (event.target == ruleModal) {
+                ruleModal.style.display = "none";
+              }
         }
     }
 
