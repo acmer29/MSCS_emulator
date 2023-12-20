@@ -20,13 +20,13 @@ export const MAX_INTERVIEW_PROBABILITY: number = 50;
 export const INITIAL_HEALTH_VALUE: number = 80;
 export const INITIAL_HEALTH_VALUE_LOW: number = 70;
 
-export const INITIAL_STUDY_VALUE: number = 50;
-export const INITIAL_STUDY_VALUE_HIGH: number = 60;
-export const INITIAL_STUDY_VALUE_LOW: number = 40;
+export const INITIAL_STUDY_VALUE: number = 65;
+export const INITIAL_STUDY_VALUE_HIGH: number = 70;
+export const INITIAL_STUDY_VALUE_LOW: number = 60;
 
 export const INITIAL_CODING_VALUE: number = 10;
 export const INITIAL_CODING_VALUE_HIGH: number = 30;
-export const INITIAL_CODING_VALUE_LOW: number = 3;
+export const INITIAL_CODING_VALUE_LOW: number = 5;
 
 export const INITIAL_INTERVIEW_PROBABILITY: number = 20;
 export const INITIAL_INTERVIEW_PROBABILITY_HIGH: number = 25;

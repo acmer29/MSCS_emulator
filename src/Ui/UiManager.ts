@@ -250,7 +250,7 @@ export class UiManager {
     }
 
     private codingValueToDisplay(value: number): string {
-        if (value <= 4) return this._lang.lang ? "Newbie" : "菜鸡";
+        if (value <= 8) return this._lang.lang ? "Newbie" : "菜鸡";
         if (value <= 16) return this._lang.lang ? "Normal" : "普通";
         if (value <= 32) return this._lang.lang ? "Experienced" : "熟练";
         if (value <= 64) return this._lang.lang ? "Master" : "大师";
