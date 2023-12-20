@@ -24,14 +24,14 @@ module.exports = {
     },
     output: {
         filename: "bundle.js",
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'docs'),
     },
     plugins: [
         new CopyWebpackPlugin({
             patterns: [
                 {
                     from: path.join(__dirname, 'static'),
-                    to: path.join(__dirname, 'dist')
+                    to: path.join(__dirname, 'docs')
                 },
             ],
         }),
@@ -39,9 +39,9 @@ module.exports = {
             process: 'process/browser',
         }),
     ],
-    // optimization: {
-    //     minimize: true,
-    //     minimizer: [new TerserPlugin()],
-    // },
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()],
+    },
     target: 'node'
 };

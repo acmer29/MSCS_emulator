@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="acmer29">
+    <title>MSCS Simulator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+</head>
+<body>
+    <div class="container container-border">
+        <div class="content">
+            <div class="top-panel">
+                <div id="study-window" class="top-qual">
+                    <span id="study-key-span" class="parameter-key-text"></span>
+                    <span id="study-value-span" class="paramter-value-text"></span>
+                </div>
+                <div id="health-window" class="top-qual">
+                    <span id="health-key-span" class="parameter-key-text"></span>
+                    <span id="health-value-span"class="paramter-value-text"></span>
+                </div>
+                <div id="coding-window" class="top-qual">
+                    <span id="coding-key-span" class="parameter-key-text"></span>
+                    <span id="coding-value-span"class="paramter-value-text"></span>
+                </div>
+                <div id="scores-window" class="top-qual">
+                    <span id="scores-key-span" class="parameter-key-text"></span>
+                    <span id="scores-value-span" class="paramter-value-text"></span>
+                </div>
+            </div>
+            <div id="time-window" class="time-panel">
+                <span id="time-value-box" class="time-text"></span>
+            </div>
+            <div id="event-window" class="middle-panel">
+                <div id="event-message-window" class="event-message-window">
+                    <p id="event-message-box" class="event-message"></p>
+                </div>
+                <div id="event-option-window">
+                </div>
+            </div>
+            <div class="bottom-panel">
+                <span id="attribute-key-span" class="parameter-key-text"></span>
+                <ul id="attribute-ul">
+                </ul>
+                <img src="./img/su-seal.svg" class="su-seal" id="su-su-seal" style="display: none;">
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <label class="lang-switch">
+            <input type="checkbox" id="lang-switch-checkbox">
+            <span class="slider"></span>
+            <div class="switch-text switch-text-left">EN</div>
+            <div class="switch-text switch-text-right">中</div>
+        </label>
+        <p class="copyright">
+            &copy; 2023 acmer29 - <a href="https://www.linkedin.com/in/tianyu-q-477a25147/" class="mylink"  target="_blank" rel="noopener noreferrer">Tianyu Qi</a>
+        </p>
+        <a id="rule-btn"></a>
+    </div>
+
+    <!-- Modal -->
+    <div id="rule-modal-window" class="modal">
+        <div class="modal-content">
+            <div id="rule-modal-text-window"></div>
+            <a id="rule-btn-close" class="event-option-btn"></a>
+        </div>
+    </div>
+
+    <div id="attribute-modal-window" class="modal">
+        <div class="modal-content">
+            <div id="attribute-modal-text-window">
+                <p id="attribute-description-text"></p>
+                <ul id="attribute-description-ul">
+                </ul>
+            </div>
+            <a id="attribute-btn-close" class="event-option-btn"></a>
+        </div>
+    </div>
+    <script src="./bundle.js"></script>
+</body>
+</html>
