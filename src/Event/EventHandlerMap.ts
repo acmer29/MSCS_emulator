@@ -1,6 +1,6 @@
 import { GIFTED_ATTRIBUTE_IDS, MUTURAL_EXCLUSIVE_ATTRIBUTE_GROUPS } from "../Attribute/AttributeConstants";
 import { isInVacation } from "../Utils/Calendar";
-import { INITIAL_CODING_VALUE, INITIAL_CODING_VALUE_HIGH, INITIAL_HEALTH_VALUE, INITIAL_HEALTH_VALUE_LOW, INITIAL_INTERVIEW_PROBABILITY, INITIAL_INTERVIEW_PROBABILITY_HIGH, INITIAL_INTERVIEW_PROBABILITY_LOW, INITIAL_STUDY_VALUE, INITIAL_STUDY_VALUE_HIGH, INITIAL_STUDY_VALUE_LOW, PlayerStatus } from "../Player/PlayerConstants";
+import { INITIAL_CODING_VALUE, INITIAL_CODING_VALUE_HIGH, INITIAL_CODING_VALUE_LOW, INITIAL_HEALTH_VALUE, INITIAL_HEALTH_VALUE_LOW, INITIAL_INTERVIEW_PROBABILITY, INITIAL_INTERVIEW_PROBABILITY_HIGH, INITIAL_INTERVIEW_PROBABILITY_LOW, INITIAL_STUDY_VALUE, INITIAL_STUDY_VALUE_HIGH, INITIAL_STUDY_VALUE_LOW, PlayerStatus } from "../Player/PlayerConstants";
 import { SUMMER_I_ROUNDS } from "../Game/RoundConstants";
 import { Player } from "../Player/Player";
 import { getNormalDistributedInt, getRandomInt } from "../Utils/Rng";
@@ -720,10 +720,10 @@ function handler101(player: Player): Map<string, string> {
         }
     }
     giftIds.sort((lhs, rhs) => {return lhs - rhs;});
-    player.parameter.coding = giftIds.includes(0) ? INITIAL_CODING_VALUE_HIGH : INITIAL_CODING_VALUE;
+    player.parameter.coding = giftIds.includes(0) ? INITIAL_CODING_VALUE_HIGH : giftIds.includes(1) ? INITIAL_CODING_VALUE_LOW : INITIAL_CODING_VALUE;
     player.parameter.health = giftIds.includes(2) ? INITIAL_HEALTH_VALUE : INITIAL_HEALTH_VALUE_LOW;
     player.parameter.health += giftIds.includes(7) ? 5 : 0;
-    player.parameter.study = giftIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : giftIds.includes(5) ? INITIAL_STUDY_VALUE : INITIAL_STUDY_VALUE_LOW;
+    player.parameter.study = giftIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : giftIds.includes(6) ? INITIAL_STUDY_VALUE_LOW : INITIAL_STUDY_VALUE;
     player.parameter.interviewProbability = 0;
     player.assignAttribute(giftIds);
     return DEFAULT_EMPTY_MAP;
