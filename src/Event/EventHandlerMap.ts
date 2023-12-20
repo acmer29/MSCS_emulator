@@ -363,6 +363,8 @@ function handler20(player: Player): Map<string, string> {
     let workAffect: number = Math.min(getRandomInt(20) + 5, 20);
     player.modifyParameter("working", workAffect, 20);
     player.modifyParameter("health", -2, 20);
+    let toSubstract: number = Math.min(player.parameter.study - INITIAL_STUDY_VALUE_LOW, 10);
+    player.modifyParameter("study", -1 * toSubstract, null);
     let tokens: Map<string, string> = new Map<string, string>([
         ["normalWork", workAffect >= 10 && workAffect <= 13 ? CONDITION_TRUE : CONDITION_FALSE],
         ["highWork", workAffect > 13 ? CONDITION_TRUE : CONDITION_FALSE]
@@ -420,7 +422,7 @@ function handler25(player: Player): Map<string, string> {
     let tokens: Map<string, string> = new Map<string, string>([
         ["highWork", player.parameter.working >= 80 ? CONDITION_TRUE : CONDITION_FALSE]
     ]);
-    let context = player.internOffers[0];
+    let context = player.internOffers;
     player.roundResultEventQueue.push([player.round + 1, probability <= workingFinal ? 27 : 28, context]);
     player.modifyParameter("health", player.parameter.working >= 80 ? 5: 2, 25);
     player.maintain();
@@ -434,7 +436,7 @@ function handler26(player: Player): Map<string, string> {
     let tokens: Map<string, string> = new Map<string, string>([
         ["highWork", player.parameter.working >= 80 ? CONDITION_TRUE : CONDITION_FALSE]
     ]);
-    let context = player.internOffers[0];
+    let context = player.internOffers;
     player.roundResultEventQueue.push([player.round + 1, probability <= workingFinal ? 27 : 28, context]);
     player.modifyParameter("health", player.parameter.working >= 80 ? 0 : -3, 26);
     player.maintain();
@@ -443,7 +445,7 @@ function handler26(player: Player): Map<string, string> {
 
 function handler27(player: Player): Map<string, string> {
     // Event handler 27: Return offer.
-    let companyName: string = player.internOffers[0];
+    let companyName: string = player.internOffers;
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName]
     ]);
@@ -454,7 +456,7 @@ function handler27(player: Player): Map<string, string> {
 
 function handler28(player: Player): Map<string, string> {
     // Event handler 28: Return offer rejected.
-    let companyName: string = player.internOffers[0];
+    let companyName: string = player.internOffers;
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName]
     ]);

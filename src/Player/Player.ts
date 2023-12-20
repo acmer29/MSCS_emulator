@@ -74,18 +74,18 @@ export class Player {
     }
 
     get attributeStrings(): string[][] {
-        let attributeStrings: string[][] = 
-            this._attributeManager.getVisibleActivatedAttributeDescriptions();
-        for (let [titleEn, titleZh] of attributeStrings) {
+        let attributeStrings: string[][] = [];
+        for (let [titleEn, titleZh] of this._attributeManager.getVisibleActivatedAttributeDescriptions()) {
             if (titleEn == ATTRIBUTE_TEXT_MAP.get(10)![0] || 
                 titleEn == ATTRIBUTE_TEXT_MAP.get(12)![0]) {
-                titleEn += "(" + this._internOffers + ")";
-                titleZh += "(" + this._internOffers + ")";
+                titleEn += " (" + this._internOffers + ")";
+                titleZh += " (" + this._internOffers + ")";
             }
             if (titleEn == ATTRIBUTE_TEXT_MAP.get(13)![0]) {
-                titleEn += "(" + this._offers + ")";
-                titleZh += "(" + this._offers + ")";
+                titleEn += " (" + this._offers + ")";
+                titleZh += " (" + this._offers + ")";
             }
+            attributeStrings.push([titleEn, titleZh]);
         }
         return attributeStrings;
     }

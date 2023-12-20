@@ -1,5 +1,6 @@
-import { PlayerStatus } from "../Player/PlayerConstants";
 import { Parameter } from "../Player/Parameter";
+import { Player } from "../Player/Player";
+import { PlayerStatus } from "../Player/PlayerConstants";
 import { RoundManager, RoundPhases } from "./RoundManager";
 
 // Set this flag to true to enable existing console loggings,
@@ -18,7 +19,8 @@ export class GameManager {
         // To start a debug under a specific condition, you can create a player
         // with desired parameters and attributes, and start in a chosen event.
         // Like this:
-        // this._roundManager.reset(new Player(), /* eventId= */ 0);
+        // let player: Player = new Player();
+        // this._roundManager.reset(player, /* eventId= */ 0);
         while (true) {
             // The round can be started in a specified phase for debugging purposes.
             await this._roundManager.oneRound();

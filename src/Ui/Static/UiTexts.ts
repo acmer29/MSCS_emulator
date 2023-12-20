@@ -89,8 +89,8 @@ export const ATTRIBUTE_DESCRIPTION_MAP: Map<number, [string, string]> = new Map<
         "IT中心 - 极大幅度增加收到面试概率."]],
     [10, ["Have intership offer - Reduce study & coding gainings, increase sanity gaining, reduce sanity lost.", 
         "有实习offer了 - 减少学习, 刷题收益, 增加身心健康收益, 减少身心健康损害."]],
-    [11, ["Intern in summer break - Nothing but just a valuable experience", 
-        "有暑假实习 - 除了没啥用的实习经历以外啥都没有."]],
+    [11, ["Intern in summer break - Increase interview probability.", 
+        "有暑假实习 - 增加收到面试概率."]],
     [12, ["Have return offer - Reduce study gaining, furtherer reduce coding gaining, furtherer increase sanity gaining, futherer reduce sanity lost.", 
         "有return offer - 减少学习收益, 显著减少刷题收益, 显著增加身心健康收益, 显著减少身心健康损害."]],
     [13, ["Have offer letter - Reduce study gaining, furtherer reduce coding gainings, furtherer increase sanity gaining, furtherer reduce sanity lost.", 
@@ -173,7 +173,7 @@ export function getUiRoundText(key: number, lang: LanguageFlag): string {
             year = "第三年";
         } else if (roundEngString.includes("Year II")) {
             year = "第二年";
-        } else if (roundEngString.includes("Year II")) {
+        } else if (roundEngString.includes("Year I")) {
             year = "第一年";
         }
 
