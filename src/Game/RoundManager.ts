@@ -5,8 +5,9 @@ import { PlayerStatus } from "../Player/PlayerConstants";
 import { COMPULSORY_EVENT_ROUNDS, GAME_START_ROUND, SUMMER_I_ROUNDS } from "./RoundConstants";
 import { COMPULSORY_EVENT_IDS, FINAL_TEST_START_EVENT_ID, GAME_OVER_EVENTS_MAP, GAME_START_EVENT_ID, IN_PHASE_END_EVENT_ID, JOBHUNTING_EVENT_ID, NORMAL_EVENT_ID, PHASE_END_EVENT_ID, RETURN_OFFER_EVAL_START_EVENT_ID } from "../Event/EventConstants";
 import { getRandomInt } from "../Utils/Rng";
+import { DebugLogger } from "../Utils/UtilFns";
 
-enum RoundPhases {
+export enum RoundPhases {
     INVALID,
     GAME_START_PHASE,
     RESULT_EVENT_PHASE,
@@ -53,7 +54,7 @@ export class RoundManager {
 
         this._currentPhase = initialPhase == null ? this.setupInitialPhase() : initialPhase;
 
-        console.log("Round " + this._player.round + ", phase " + this._currentPhase + " event id:" + this._currentEventId);
+        DebugLogger("Round " + this._player.round + ", phase " + this._currentPhase + " event id:" + this._currentEventId);
         
         while(this._currentPhase != RoundPhases.INVALID && 
             this._player.status == PlayerStatus.ALIVE) {            
@@ -79,16 +80,17 @@ export class RoundManager {
                 break;
             }
         }
-        console.log("Exit phase transition loop.");
+        DebugLogger("Exit phase transition loop.");
+        // Gameover, reset the game.
         if (this._player.status != PlayerStatus.ALIVE || 
             Array.from(GAME_OVER_EVENTS_MAP.values()).includes(this._currentEventId)) {
             await this.phaseGameEndEvent();
             this.reset();
-            console.log("Restart the game");
+            DebugLogger("Restart the game");
         } else {
             this._player.round += 1;
         }
-        console.log("exit one round");
+        DebugLogger("exit one round");
     }
 
     private setupInitialPhase(): RoundPhases {
@@ -116,7 +118,7 @@ export class RoundManager {
             return RoundPhases.COMPULSORY_EVENT_PHASE;
         }
 
-        // Print SU theme now if property contains SU.
+        // Print SU theme now and only once if property contains SU.
         if (this._player.attributeIds.includes(5)) {
             this._ui.printSuTheme();
         }
@@ -127,7 +129,7 @@ export class RoundManager {
     }
 
     private async phaseResultEvent(): Promise<void> {
-        console.log("phase result, round " + this._player.round);
+        DebugLogger("phase result, round " + this._player.round);
         
         let nextPhase: RoundPhases = RoundPhases.NORMAL_EVENT_PHASE;
         if (COMPULSORY_EVENT_ROUNDS.includes(this._player.round)) {
@@ -142,7 +144,7 @@ export class RoundManager {
             if (this._player.roundResultEventQueue.length > 0 && 
                 this._player.roundResultEventQueue[0][0] <= this._player.round) {
                 let eventInfo: [number, number, number] = this._player.roundResultEventQueue.shift()!;
-                console.log("Round " + this._player.round + "event info are " + eventInfo);
+                DebugLogger("Round " + this._player.round + "event info are " + eventInfo);
                 this._currentEventId = eventInfo[1];
                 context = eventInfo[2] == -1 ? null : eventInfo[2];
             } else {
@@ -157,7 +159,7 @@ export class RoundManager {
     }
 
     private async phaseCompulsoryEvent(): Promise<void> {
-        console.log("phase compulsory, round " + this._player.round);
+        DebugLogger("phase compulsory, round " + this._player.round);
         // As compulsory name suggests, force the current event to be the compulsory event.
         if (!COMPULSORY_EVENT_IDS.includes(this._currentEventId)) {
             if (COMPULSORY_EVENT_ROUNDS.includes(this._player.round)) {
@@ -171,10 +173,10 @@ export class RoundManager {
     }
 
     private async phaseJobhuntingEvent(): Promise<void> {
-        console.log("phase job hunting, round " + this._player.round);
+        DebugLogger("phase job hunting, round " + this._player.round);
         if (this._currentEventId == IN_PHASE_END_EVENT_ID) {
             let tmp = getRandomInt(100);
-            console.log(tmp + " and " + this._player.parameter.interviewProbability);
+            DebugLogger(tmp + " and " + this._player.parameter.interviewProbability);
             let hasInterview: boolean = tmp < this._player.parameter.interviewProbability;
             this._currentEventId = hasInterview ? JOBHUNTING_EVENT_ID : PHASE_END_EVENT_ID;
         }
@@ -185,7 +187,7 @@ export class RoundManager {
     }
 
     private async phaseRandomEvent(): Promise<void> {
-        console.log("phase random1, round" + this._player.round);
+        DebugLogger("phase random1, round" + this._player.round);
         if (this._randomEventNum > 0 && this._currentEventId == IN_PHASE_END_EVENT_ID) {
             let possibleNextRandomEventId = this._eventManager.getNextRandomEvent(this._player);
             this._currentEventId = possibleNextRandomEventId == -1 ? PHASE_END_EVENT_ID : possibleNextRandomEventId;
@@ -201,19 +203,19 @@ export class RoundManager {
     }
 
     private async phaseNormalEvent(): Promise<void> {
-        console.log("phase normal, round" + this._player.round);
+        DebugLogger("phase normal, round" + this._player.round);
         await this.eventTransition()
         this.phaseTransition(RoundPhases.JOBHUNTING_EVENT_PHASE, IN_PHASE_END_EVENT_ID);
     }
 
     private async phaseGameStartEvent(): Promise<void> {
-        console.log("phase game start, round" + this._player.round);
+        DebugLogger("phase game start, round" + this._player.round);
         await this.eventTransition();
         this.phaseTransition(RoundPhases.INVALID, NORMAL_EVENT_ID);
     }
 
     private async phaseGameEndEvent(): Promise<void> {
-        console.log("phase game end, round" + this._player.round);
+        DebugLogger("phase game end, round" + this._player.round);
         await this.eventTransition();
     }
 
@@ -226,32 +228,35 @@ export class RoundManager {
             this._ui.printParameter(this._player.parameter);
             this._ui.printAttributes(this._player.attributeStrings);
         }
+        // Print attribute descriptions after attributes are assigned.
+        if (this._player.attributeIds.length) {
+            this._ui.printAttributeModal(this._player.attributeIds);
+        }
         
         let choice: number = await this._ui.printAndSetupEvent(
             executionResult[0], executionResult[1]);
         this._currentEventId = choice;
-        this._player.eventNum += 1;
     }
 
     private phaseTransition(expectedNext: RoundPhases, phaseTransitionEvent: number) {
-        console.log("phase transition: " + this._currentPhase + " to " + expectedNext + ", displaying event id: " + this._currentEventId);
+        DebugLogger("phase transition: " + this._currentPhase + " to " + expectedNext + ", displaying event id: " + this._currentEventId);
         if (this._player.status != PlayerStatus.ALIVE) {
             // General transition to GAME_END_PHASE.
-            console.log("case 1");
+            DebugLogger("case 1");
             this._currentEventId = GAME_OVER_EVENTS_MAP.get(this._player.status)!;
             this._currentPhase = RoundPhases.INVALID;
         } else if (Array.from(GAME_OVER_EVENTS_MAP.values()).includes(this._currentEventId)) {
             // Already triggered game over event, end round with game over immidiately.
-            console.log("case 1.1");
+            DebugLogger("case 1.1");
             this._currentPhase = RoundPhases.INVALID;
         } else if (this._currentEventId == PHASE_END_EVENT_ID) {
             // Normal phase transition.
-            console.log("case 2");
+            DebugLogger("case 2");
             this._currentEventId = phaseTransitionEvent;
             this._currentPhase = expectedNext;
         } else {
             // Still in current phase.
-            console.log("case 3");
+            DebugLogger("case 3");
         }
     }
 }

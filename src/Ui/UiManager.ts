@@ -1,6 +1,6 @@
 import { Parameter } from "../Player/Parameter";
 import { LanguageFlag } from "../Game/LanguageFlag";
-import { getUiText, getUiRoundText, RULE_HTML_EN, RULE_TEXT_ZH } from "./Static/UiTexts";
+import { getUiText, getUiRoundText, RULE_HTMLS, ATTRIBUTE_DESCRIPTION_MAP, ATTRIBUTE_DESCRIPTION_GENERAL_TEXT } from "./Static/UiTexts";
 import { DisplayNumber } from "../Utils/UtilFns";
 import { SuThemePrinter } from "./SUTheme";
 
@@ -8,10 +8,11 @@ export class UiManager {
     private _lang: LanguageFlag = new LanguageFlag();
 
     private _lastParameter: Parameter = new Parameter();
-    private _lastRoundNumber: number = 0;
+    private _lastRoundNumber: number = -1;
     private _lastAttributeStrings: string[][] = [];
     private _lastDescriptions: string[] = [];
     private _lastOptions: Map<number, string[]> = new Map();
+    private _lastAttributes: number[] = [];
 
     private _suThemePrinter: SuThemePrinter = new SuThemePrinter();
 
@@ -38,6 +39,7 @@ export class UiManager {
             this.printAttributes(this._lastAttributeStrings);
             this.reprintEvent();
             this.reprintRuleModal();
+            this.reprintAttributeModal();
         }
     }
 
@@ -59,6 +61,15 @@ export class UiManager {
         this.clearContainer(document.getElementById("attribute-ul")!);
         this.clearContainer(document.getElementById("time-value-box")!);
         this._suThemePrinter.clearSuTheme();
+        this.resetAttributeModal();
+
+        // Reset helper information for language switch.
+        this._lastAttributeStrings = [];
+        this._lastAttributes = [];
+        this._lastDescriptions = [];
+        this._lastOptions = new Map();
+        this._lastParameter = new Parameter();
+        this._lastRoundNumber = -1;
     }
 
     printSuTheme(): void {
@@ -73,6 +84,7 @@ export class UiManager {
         document.getElementById("attribute-key-span")!.innerHTML = getUiText("attribute", this._lang);
         document.getElementById("rule-btn")!.innerHTML = getUiText("rule", this._lang);
         document.getElementById("rule-btn-close")!.innerHTML = getUiText("rule-close", this._lang);
+        document.getElementById("attribute-btn-close")!.innerHTML = getUiText("attribute-btn-close", this._lang);
     }
 
     async printAndSetupEvent(descriptions: string[], options: Map<number, string[]>): Promise<number> {
@@ -173,7 +185,47 @@ export class UiManager {
 
     reprintRuleModal(): void {
         let ruleModalTextWindow = document.getElementById("rule-modal-text-window")!;
-        ruleModalTextWindow.innerHTML = this._lang.lang ? RULE_HTML_EN : RULE_TEXT_ZH;
+        ruleModalTextWindow.innerHTML = this._lang.lang ? RULE_HTMLS[0] : RULE_HTMLS[1];
+    }
+
+    printAttributeModal(attributeIds: number[]): void {
+        // Update attribute ids.
+        this._lastAttributes = attributeIds;
+        document.getElementById("attribute-key-span")!.style.textDecoration = "underline";
+        let attributeBtn = document.getElementById("attribute-key-span")!;
+        let attributeModal = document.getElementById("attribute-modal-window")!;
+        let attributeCloseBtn = document.getElementById("attribute-btn-close")!;
+        attributeBtn.onclick = () => {
+            attributeModal.style.display = "block";
+        };
+        attributeCloseBtn.onclick = () => {
+            attributeModal.style.display = "none";
+        };
+        window.onclick = function(event) {
+            if (event.target == attributeModal) {
+                attributeModal.style.display = "none";
+            }
+        }
+        this.reprintAttributeModal();
+    }
+
+    reprintAttributeModal(): void {
+        if (!this._lastAttributes.length) {
+            return;
+        }
+        let attributeDescriptionUl = document.getElementById("attribute-description-ul")!;
+        this.clearContainer(attributeDescriptionUl);
+        let attributeDescriptionGeneralText = document.getElementById("attribute-description-text")!;
+        attributeDescriptionGeneralText.innerHTML = 
+            this._lang.lang ? ATTRIBUTE_DESCRIPTION_GENERAL_TEXT[0] : 
+                                ATTRIBUTE_DESCRIPTION_GENERAL_TEXT[1];
+        for (let attributeId of this._lastAttributes) {
+            let attributeDescriptionItem = document.createElement("li");
+            attributeDescriptionItem.className = "diamond";
+            let descriptions: string[] = ATTRIBUTE_DESCRIPTION_MAP.get(attributeId)!;
+            attributeDescriptionItem.innerHTML = this._lang.lang ? descriptions[0] : descriptions[1];
+            attributeDescriptionUl.append(attributeDescriptionItem);
+        }
     }
 
     private scoreValueToDisplay(scores: string[]): string {
@@ -209,5 +261,11 @@ export class UiManager {
         while(container.firstChild) {
             container.removeChild(container.lastChild!);
         }
+    }
+
+    private resetAttributeModal(): void {
+        this.clearContainer(document.getElementById("attribute-description-ul")!);
+        document.getElementById("attribute-key-span")!.removeAttribute("onclick");
+        document.getElementById("attribute-key-span")!.style.textDecoration = "";
     }
 }

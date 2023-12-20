@@ -5,6 +5,8 @@ import { PlayerStatus } from "./PlayerConstants";
 import { NameHelper } from "./NameHelper";
 import { COURSE_NAME_TEXTS } from "./Static/CourseNameTexts";
 import { COMPANY_NAME_TEXTS } from "./Static/CompanyNameTexts";
+import { ATTRIBUTE_TEXT_MAP } from "../Attribute/Static/AttributeTexts";
+import { DebugLogger } from "../Utils/UtilFns";
 
 export class Player {
     private _parameter: Parameter;
@@ -12,27 +14,27 @@ export class Player {
     private _round: number;
     private _roundResultEventQueue: [number, number, any][];
     private _attributeManager: AttributeManager;
-    private _eventNum: number;
     private _courseNameHelper: NameHelper;
     private _companyNameHelper: NameHelper;
-    private _internOffers: string[];
-    private _offers: string[];
+    private _internOffers: string;
+    private _offers: string;
+    private _historyEvents: [number, any][];
     
     constructor(
         parameter: Parameter = new Parameter(),
         status: PlayerStatus = PlayerStatus.ALIVE,
         round: number = -1,
-        eventNum: number = 0) {
+        historyEvents: [number, any][] = []) {
         this._parameter = parameter;
         this._status = status;
         this._round = round;
         this._attributeManager = new AttributeManager();
         this._roundResultEventQueue = [];
-        this._eventNum = eventNum;
         this._courseNameHelper = new NameHelper(COURSE_NAME_TEXTS);
         this._companyNameHelper = new NameHelper(COMPANY_NAME_TEXTS);
-        this._internOffers = [];
-        this._offers = []
+        this._internOffers = "";
+        this._offers = "";
+        this._historyEvents = historyEvents;
     }
 
     get parameter() {
@@ -72,15 +74,20 @@ export class Player {
     }
 
     get attributeStrings(): string[][] {
-        return this._attributeManager.getVisibleActivatedAttributeDescriptions();
-    }
-
-    get eventNum(): number {
-        return this._eventNum;
-    }
-
-    set eventNum(value: number) {
-        this._eventNum = value;
+        let attributeStrings: string[][] = 
+            this._attributeManager.getVisibleActivatedAttributeDescriptions();
+        for (let [titleEn, titleZh] of attributeStrings) {
+            if (titleEn == ATTRIBUTE_TEXT_MAP.get(10)![0] || 
+                titleEn == ATTRIBUTE_TEXT_MAP.get(12)![0]) {
+                titleEn += "(" + this._internOffers + ")";
+                titleZh += "(" + this._internOffers + ")";
+            }
+            if (titleEn == ATTRIBUTE_TEXT_MAP.get(13)![0]) {
+                titleEn += "(" + this._offers + ")";
+                titleZh += "(" + this._offers + ")";
+            }
+        }
+        return attributeStrings;
     }
 
     get courseNameHelper() {
@@ -103,7 +110,7 @@ export class Player {
         return this._internOffers;
     }
 
-    set internOffers(value: string[]) {
+    set internOffers(value: string) {
         this._internOffers = value;
     }
 
@@ -111,8 +118,16 @@ export class Player {
         return this._offers;
     }
 
-    set offers(value: string[]) {
+    set offers(value: string) {
         this._offers = value;
+    }
+
+    get historyEvents() {
+        return this._historyEvents;
+    }
+
+    set historyEvents(value: [number, any][]) {
+        this._historyEvents = value;
     }
 
     checkVitals() {
@@ -131,7 +146,7 @@ export class Player {
 
     modifyParameter(type: string, delta: number, eventId: number | null): void {
         let correctedDelta = this._attributeManager.getAttributeAffectOnParameter(type, delta, eventId);
-        console.log("Modify on " + type + ", incoming " + delta + ", corrected " + correctedDelta);
+        DebugLogger("Modify on " + type + ", incoming " + delta + ", corrected " + correctedDelta);
         switch (type) {
             case "study":
                 this._parameter.study += correctedDelta;
@@ -168,15 +183,13 @@ export class Player {
         // Clear used companies, onsite is a fresh one.
         if (this.round == SUMMER_I_ROUNDS[0]) {
             this.companyNameHelper.reset();
-            if (this._internOffers.length > 0) {
-                let finalChoice: number = 0;
-                // TODO: Get the answer whose id is smallest in company list.
-                this._internOffers = [this._internOffers[0]];
-                this._companyNameHelper.registerName(this.round, this._internOffers[0]);
+            if (this._internOffers.length) {
+                this._internOffers = this._internOffers.split(",")[0];
+                this._companyNameHelper.registerName(this.round, this._internOffers);
             }
         }
-        console.log("intern offers are: ");
-        console.log(this._internOffers);
+        DebugLogger("intern offers are: ");
+        DebugLogger(this._internOffers);
     }
 
     maintain() {
@@ -191,10 +204,10 @@ export class Player {
         this.round = -1;
         this.status = PlayerStatus.ALIVE;
         this.roundResultEventQueue = [];
-        this.eventNum = 0;
         this._companyNameHelper.reset();
         this._courseNameHelper.reset();
-        this._internOffers = [];
-        this._offers = [];
+        this._internOffers = "";
+        this._offers = "";
+        this._historyEvents = [];
     }
 }

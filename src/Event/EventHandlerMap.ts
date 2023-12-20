@@ -5,7 +5,7 @@ import { SUMMER_I_ROUNDS } from "../Game/RoundConstants";
 import { Player } from "../Player/Player";
 import { getNormalDistributedInt, getRandomInt } from "../Utils/Rng";
 import { CONDITION_FALSE, CONDITION_TRUE } from "../Utils/SimpleTemplateRender";
-import { DisplayNumber } from "../Utils/UtilFns";
+import { DebugLogger, DisplayNumber } from "../Utils/UtilFns";
 
 const DEFAULT_EMPTY_MAP: Map<string, string> = new Map<string, string>();
 
@@ -112,8 +112,7 @@ function handler2(player: Player): Map<string, string> {
         player.modifyParameter("interview", 1, 2);
     }
     if (isInVacation(player.round)) {
-        let bottomline: number = player.attributeIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : player.attributeIds.includes(5) ? INITIAL_STUDY_VALUE : INITIAL_STUDY_VALUE_LOW;
-        let toSubstract: number = Math.min(player.parameter.study - bottomline, 5)
+        let toSubstract: number = Math.min(player.parameter.study - INITIAL_STUDY_VALUE_LOW, 10);
         player.modifyParameter("study", -1 * toSubstract, null);
     }
     player.maintain();
@@ -125,8 +124,7 @@ function handler3(player: Player): Map<string, string> {
     player.modifyParameter("coding", 3, 3);
     player.modifyParameter("health", -2, 3);
     if (isInVacation(player.round)) {
-        let bottomline: number = player.attributeIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : player.attributeIds.includes(5) ? INITIAL_STUDY_VALUE : INITIAL_STUDY_VALUE_LOW;
-        let toSubstract: number = Math.min(player.parameter.study - bottomline, 5)
+        let toSubstract: number = Math.min(player.parameter.study - INITIAL_STUDY_VALUE_LOW, 10);
         player.modifyParameter("study", -1 * toSubstract, null);
     }
     player.maintain();
@@ -138,8 +136,7 @@ function handler4(player: Player): Map<string, string> {
     player.modifyParameter("coding", -2, 4);
     player.modifyParameter("health", 5, 4);
     if (isInVacation(player.round)) {
-        let bottomline: number = player.attributeIds.includes(4) ? INITIAL_STUDY_VALUE_HIGH : player.attributeIds.includes(5) ? INITIAL_STUDY_VALUE : INITIAL_STUDY_VALUE_LOW;
-        let toSubstract: number = Math.min(player.parameter.study - bottomline, 5)
+        let toSubstract: number = Math.min(player.parameter.study - INITIAL_STUDY_VALUE_LOW, 10);
         player.modifyParameter("study", -1 * toSubstract, null);
     }
     player.maintain();
@@ -164,7 +161,7 @@ function handler6(player: Player): Map<string, string> {
         subjects.push(DisplayNumber(tmp));
     }
     score /= 3;
-    console.log("final score is " + score);
+    DebugLogger("final score is " + score);
     let grade: string = "F";
     if (score >= 95) {
         player.modifyParameter("health", 5, 6);
@@ -194,7 +191,7 @@ function handler7(player: Player): Map<string, string> {
     // Event handler 7: Preliminary interview & Internship interview request.
     let beforeSummer1: boolean = SUMMER_I_ROUNDS.filter((round) => player.round >= round).length == 0;
     let companyName: string = player.companyNameHelper.getNextName("A nameless company");
-    player.companyNameHelper.registerName(player.eventNum, companyName);
+    player.companyNameHelper.registerName(player.historyEvents.length, companyName);
     let tokens: Map<string, string> = new Map<string, string>([
         ["intern", beforeSummer1 ? CONDITION_TRUE : CONDITION_FALSE],
         ["companyName", companyName],
@@ -207,7 +204,7 @@ function handler8(player: Player): Map<string, string> {
     // Event handler 8: Preliminary interview.
     let res: number = getRandomInt(100) <= player.parameter.coding ? 9 : 10;
     // This is a click event, the company name must registered in the last event - handler7.
-    let context: number = player.eventNum - 1;
+    let context: number = player.historyEvents.length - 1;
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     player.roundResultEventQueue.push([player.round + 1, res, context]);
     let tokens: Map<string, string> = new Map<string, string>([
@@ -248,7 +245,7 @@ function handler11(player: Player, context: any): Map<string, string> {
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName],
     ]);
-    player.companyNameHelper.registerName(player.eventNum, companyName);
+    player.companyNameHelper.registerName(player.historyEvents.length, companyName);
     player.modifyParameter("health", -5, 10);
     player.maintain();
     return tokens
@@ -268,7 +265,7 @@ function handler12(player: Player, context: any): Map<string, string> {
 function handler13(player: Player): Map<string, string> {
     // Event handler 13: Onsite interview confirmed.
     // Event 13 is a click event after event 11, so last eventNum should be event 11.
-    let context: number = player.eventNum - 1;
+    let context: number = player.historyEvents.length - 1;
     player.roundResultEventQueue.push([player.round + 2, 14, context]);
     player.modifyParameter("health", 2, 13);
     player.maintain();
@@ -298,7 +295,7 @@ function handler15(player: Player, context: any): Map<string, string> {
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName],
     ]);
-    player.companyNameHelper.registerName(player.eventNum, companyName);
+    player.companyNameHelper.registerName(player.historyEvents.length, companyName);
     player.modifyParameter("health", -5, 14);
     player.maintain();
     return tokens
@@ -307,7 +304,7 @@ function handler15(player: Player, context: any): Map<string, string> {
 function handler16(player: Player): Map<string, string> {
     // Event 16: Addtional onsite confirmed.
     // Event 16 is a click event after event 15, so last eventNum should be event 15.
-    let context: number = player.eventNum - 1;
+    let context: number = player.historyEvents.length - 1;
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName],
@@ -339,6 +336,10 @@ function handler18(player: Player, context: any): Map<string, string> {
     player.modifyParameter("health", 10, 18);
     player.assignAttribute([13]);
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
+    if (!player.offers.includes(companyName)) {
+        player.offers += player.offers.length ? ", " : "";
+        player.offers += companyName;
+    }
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName],
     ]);
@@ -373,7 +374,7 @@ function handler20(player: Player): Map<string, string> {
 function handler21(player: Player): Map<string, string> {
     // Event 21: Summer intern interview.
     // Event 21 is a click event after event 7, so last eventNum should be event 7.
-    let context: number = player.eventNum - 1;
+    let context: number = player.historyEvents.length - 1;
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName],
@@ -388,11 +389,14 @@ function handler21(player: Player): Map<string, string> {
 function handler22(player: Player, context: any): Map<string, string> {
     // Event handler 22: Internship interview passed.
     let companyName: string = player.companyNameHelper.retrieveName(context)!;
+    if (!player.internOffers.includes(companyName)) {
+        player.internOffers += player.internOffers.length ? ", " : "";
+        player.internOffers += companyName
+    }
     let tokens: Map<string, string> = new Map<string, string>([
         ["companyName", companyName],
     ]);
     player.modifyParameter("health", 8, 9);
-    player.internOffers.push(companyName);
     player.assignAttribute([10]);
     player.maintain();
     return tokens
@@ -512,6 +516,7 @@ function handler37(player: Player): Map<string, string> {
         cheatSuccess = getRandomInt(100) >= 50 ? true : false;
     }
     let highStudy: boolean = player.parameter.study >= 90;
+    let caughtCheat: boolean = false;
 
     if (cheatSuccess) {
         player.modifyParameter("study", 8, 37);
@@ -520,6 +525,15 @@ function handler37(player: Player): Map<string, string> {
             player.modifyParameter("study", 8, 37);
             player.modifyParameter("health", -2, 37);
         } else {
+            // So when you caught cheat a second time, TA will really report to dean.
+            caughtCheat = player.historyEvents.filter(
+                ([eventId, vars]) => eventId == 37 && 
+                vars != null && 
+                (vars as Map<string, string>).get("cheatSuccess")! == CONDITION_FALSE && 
+                (vars as Map<string, string>).get("highStudy")! == CONDITION_FALSE).length > 0;
+            if (caughtCheat) {
+                player.status = PlayerStatus.CAUGHT_CHEAT;
+            }
             player.modifyParameter("study", -5, 37);
             player.modifyParameter("health", -3, 37);
         }
@@ -528,6 +542,7 @@ function handler37(player: Player): Map<string, string> {
     let tokens: Map<string, string> = new Map<string, string>([
         ["cheatSuccess", cheatSuccess ? CONDITION_TRUE : CONDITION_FALSE],
         ["highStudy", highStudy ? CONDITION_TRUE : CONDITION_FALSE],
+        ["caughtCheat", caughtCheat ? CONDITION_TRUE : CONDITION_FALSE],
     ]);
     player.maintain();
     return tokens

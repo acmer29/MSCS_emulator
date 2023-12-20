@@ -1,4 +1,5 @@
 import { getRandomInt } from "../Utils/Rng";
+import { DebugLogger } from "../Utils/UtilFns";
 
 export class NameHelper {
     private _staticNames: string[];
@@ -32,7 +33,7 @@ export class NameHelper {
         if (this._usedNameMap.has(id)) {
             return this._usedNameMap.get(id);
         } else {
-            console.log("Name not exist for id " + id);
+            DebugLogger("Name not exist for id " + id);
             return "";
         }
     }

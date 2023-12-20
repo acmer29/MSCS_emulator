@@ -9,6 +9,12 @@
     .top-panel, .middle-panel, .bottom-panel, .time-panel {
         padding-left: 50px;
     }
+    .container, .footer {
+        max-width: 96%;
+    }
+    .modal-content {
+        max-width: 80%;
+    }
 }
 
 @media screen and ( width >= 700px ) {
@@ -21,6 +27,12 @@
     
     .top-panel, .middle-panel, .bottom-panel, .time-panel {
         padding-left: 85px;
+    }
+    .container, .footer {
+        max-width: 720px;
+    }
+    .modal-content {
+        max-width: 600px;
     }
 }
 
@@ -52,7 +64,6 @@ body {
     margin: 10px auto;
     position: relative;
     width: 100%;
-    max-width: 720px;
 }
 
 .footer {
@@ -197,6 +208,11 @@ img.su-seal {
     font-weight: 600;
 }
 
+.mylink {
+    color: #262626;
+    cursor: auto;
+}
+
 #rule-btn {
     text-decoration: underline;
     position: absolute;
@@ -292,6 +308,5 @@ input:checked + .slider:before {
     margin: auto;
     padding: 20px;
     border: 1px solid brown;
-    max-width: 600px;
 }
 /* Modal style ends. */

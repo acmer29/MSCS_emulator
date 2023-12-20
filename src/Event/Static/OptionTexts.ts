@@ -110,4 +110,5 @@ export const OPTION_TEXT_MAP: Map<number, [number, string, string][]> = new Map(
     [502, [[100, `Start a new MSCS emulator journey`, `开始新一轮游戏`]]],
     [503, [[100, `Start a new MSCS emulator journey`, `开始新一轮游戏`]]],
     [504, [[100, `Start a new MSCS emulator journey`, `开始新一轮游戏`]]],
+    [505, [[100, `Start a new MSCS emulator journey`, `开始新一轮游戏`]]],
 ]);

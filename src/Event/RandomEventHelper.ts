@@ -2,11 +2,12 @@ import { isInVacation } from "../Utils/Calendar";
 import { Player } from "../Player/Player"
 
 export const enum RANDOM_EVENT_RARITY {
-    NOPE, // 0/7
-    LOW, // 1/7
-    MEDIUM, // 2/7
-    HIGH, // 4/7
-    MUST, // 7/7, reserved for future uses.
+    NOPE, // 0/16
+    LOW, // 1/16
+    MEDIUM, // 2/16
+    MEDIUM_HIGH, // 4/16
+    HIGH, // 8/16
+    MUST, // 16/16, reserved for future uses.
 }
 
 export const RANDOM_EVENT_AVAILABILITY_MAP = new Map<number, (player: Player) => RANDOM_EVENT_RARITY>([
@@ -63,7 +64,7 @@ function availabilityHandler32(player: Player): RANDOM_EVENT_RARITY {
         return RANDOM_EVENT_RARITY.NOPE;
     } else {
         if (player.attributeIds.includes(15)) {
-            return RANDOM_EVENT_RARITY.HIGH;
+            return RANDOM_EVENT_RARITY.MEDIUM_HIGH;
         } else if (player.attributeIds.includes(16)) {
             return RANDOM_EVENT_RARITY.LOW;
         } else {
@@ -77,7 +78,7 @@ function availabilityHandler36(player: Player): RANDOM_EVENT_RARITY {
     if (isInVacation(player.round)) {
         return RANDOM_EVENT_RARITY.NOPE;
     } else {
-        if (player.attributeIds.includes(16)) {
+        if (player.attributeIds.includes(14)) {
             return RANDOM_EVENT_RARITY.LOW;
         } else {
             return RANDOM_EVENT_RARITY.MEDIUM;
@@ -92,16 +93,25 @@ function availabilityHandler38(player: Player): RANDOM_EVENT_RARITY {
 
 function availabilityHandler39(player: Player): RANDOM_EVENT_RARITY {
     // In semater, all times, might happen.
-    return isInVacation(player.round) ? RANDOM_EVENT_RARITY.NOPE : RANDOM_EVENT_RARITY.MEDIUM;
+    if (isInVacation(player.round)) {
+        return RANDOM_EVENT_RARITY.NOPE;
+    }
+    if (player.parameter.health < 35) {
+        return RANDOM_EVENT_RARITY.MEDIUM
+    } else if (player.parameter.study <= 50) {
+        return RANDOM_EVENT_RARITY.MEDIUM_HIGH;
+    } else {
+        return RANDOM_EVENT_RARITY.LOW;
+    }
 }
 
 function availabilityHandler40(player: Player): RANDOM_EVENT_RARITY {
     // In semater, all times, might happen.
-    if (isInVacation(player.round)) {
+    if (isInVacation(player.round) || player.parameter.study >= 80) {
         return RANDOM_EVENT_RARITY.NOPE;
     } else {
         if (player.parameter.health < 35) {
-            return RANDOM_EVENT_RARITY.HIGH;
+            return RANDOM_EVENT_RARITY.MEDIUM;
         } else if (player.parameter.health > 80) {
             return RANDOM_EVENT_RARITY.NOPE;
         } else {
@@ -117,15 +127,19 @@ function availabilityHandler41(player: Player): RANDOM_EVENT_RARITY {
     } else if (player.attributeIds.includes(15)) {
         return RANDOM_EVENT_RARITY.HIGH;
     } else {
-        return RANDOM_EVENT_RARITY.MEDIUM;
+        return player.parameter.health <= 35 ? RANDOM_EVENT_RARITY.MEDIUM : RANDOM_EVENT_RARITY.MEDIUM_HIGH;
     }
 }
 
 function availabilityHandler42(player: Player): RANDOM_EVENT_RARITY {
     // All times, might happen.
-    if (player.parameter.health < 40) {
+    if (player.parameter.health < 35) {
         return RANDOM_EVENT_RARITY.HIGH;
     } else if (player.parameter.health > 80) {
+        return RANDOM_EVENT_RARITY.LOW;
+    } else if (player.attributeIds.includes(3)) {
+        return RANDOM_EVENT_RARITY.MEDIUM_HIGH;
+    } else if (player.attributeIds.includes(2)) {
         return RANDOM_EVENT_RARITY.LOW;
     } else {
         return RANDOM_EVENT_RARITY.MEDIUM;
@@ -163,8 +177,10 @@ function availabilityHandler47(player: Player): RANDOM_EVENT_RARITY {
     // All times, might happen.
     if (player.attributeIds.includes(1)) {
         return RANDOM_EVENT_RARITY.MEDIUM;
-    } else {
+    } else if (player.attributeIds.includes(0)) {
         return RANDOM_EVENT_RARITY.HIGH;
+    } else {
+        return RANDOM_EVENT_RARITY.MEDIUM_HIGH;
     }
 }
 

@@ -7,6 +7,7 @@ import { getRandomInt } from "../Utils/Rng";
 import { DESCRIPTION_TEXTS_MAP } from "./Static/DescriptionTexts";
 import { OPTION_TEXT_MAP } from "./Static/OptionTexts";
 import { EventDecorator } from "./EventDecorator";
+import { DebugLogger } from "../Utils/UtilFns";
 
 export class EventManager {
     private _usedRandomEvent: number[] = [];
@@ -20,13 +21,14 @@ export class EventManager {
         let event: Event = this.serveEvent(id);
         let vars: Map<string, string> = event.handler(player, context);
         this._render.decorateEvent(event, player, vars);
+        player.historyEvents.push([id, vars]);
         return [event.descriptions, event.options];
     }
 
     serveEvent(id: number): Event {
-        console.log("Demands " + id);
+        DebugLogger("Demands " + id);
         if (UNEXECUTABLE_EVENT_IDS.includes(id)) {
-            console.log("Unexecutable event " + id + " should not be served, please debug");
+            DebugLogger("Unexecutable event " + id + " should not be served, please debug");
             return new Event(id, ["Unexecutable event " + id.toString(), ""], new Map<number, string[]>(), noopHandler);
         }
         
@@ -38,9 +40,9 @@ export class EventManager {
         }
         let handler: (player: Player, context: any) => Map<string, string> = noopHandler;
         if (!EVENT_HANDLER_MAP.has(id)) {
-            console.log(id + " handler does not exist!");
+            DebugLogger(id + " handler does not exist!");
         } else {
-            console.log("Serving " + id);
+            DebugLogger("Serving " + id);
             handler = EVENT_HANDLER_MAP.get(id)!;
         }
         let event = new Event(id, descriptions, options, handler);
@@ -48,10 +50,12 @@ export class EventManager {
     }
 
     getNextRandomEvent(player: Player): number {
-        let rarity: number = getRandomInt(7);
+        let rarity: number = getRandomInt(15);
         let target: RANDOM_EVENT_RARITY = 
-            rarity < 1 ? RANDOM_EVENT_RARITY.LOW : rarity < 3 ? RANDOM_EVENT_RARITY.MEDIUM : RANDOM_EVENT_RARITY.HIGH;
-        console.log("require rarity: " + rarity);
+            rarity < 1 ? RANDOM_EVENT_RARITY.LOW : 
+            rarity < 3 ? RANDOM_EVENT_RARITY.MEDIUM : 
+            rarity < 7 ? RANDOM_EVENT_RARITY.MEDIUM_HIGH : RANDOM_EVENT_RARITY.HIGH;
+        DebugLogger("require rarity: " + rarity);
         let candidate: number[] = [];
         for (let [id, handler] of RANDOM_EVENT_AVAILABILITY_MAP.entries()) {
             let tmp: RANDOM_EVENT_RARITY = handler(player);
@@ -59,7 +63,7 @@ export class EventManager {
                 candidate.push(id);
             }
         }
-        console.log("candidates are " + candidate);
+        DebugLogger("candidates are " + candidate);
         if (candidate.length == 0) {
             return -1;
         } else {

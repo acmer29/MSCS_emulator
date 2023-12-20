@@ -1,3 +1,5 @@
+import { DEBUG_FLAG } from "../Game/GameManager";
+
 /*
  * Return a at-most 2 decimal number for better display formation. 
  */
@@ -11,5 +13,11 @@ export function DisplayNumber(num: number): string {
         }
     } else {
         return tmp;
+    }
+}
+
+export function DebugLogger(message: any) {
+    if (DEBUG_FLAG) {
+        console.log(message);
     }
 }

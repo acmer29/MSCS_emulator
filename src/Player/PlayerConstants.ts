@@ -2,12 +2,13 @@ export const enum PlayerStatus {
     ALIVE, // Still playing.
     // Below are default gameover status.
     HAPPY_ENDING, // Get the offer.
-    DROPPED, // Two C or below.
+    DROPPED, // Got F.
     DIED, // Health <= 0.
     NO_OFFER, // Alive in R48 but no offer.
     // Below are gameover triggered by events, will not be maintained by Player.
     DIDNT_START, // Event 500.
     FINAL_ABSENT, // Event 504.
+    CAUGHT_CHEAT, // Event 505.
 }
 
 export const MAX_HEALTH: number = 100;

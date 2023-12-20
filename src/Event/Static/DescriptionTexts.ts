@@ -142,7 +142,7 @@ export const DESCRIPTION_TEXTS_MAP: Map<number, string[]> = new Map([
     [27, [`Congratulations! The HR from {{ companyName }} contacted you that a return offer have been extended!`, 
         `祝贺你! {{ companyName }}的HR给你发return offer啦! `]],
     [28, [`The HR from {{ companyName }} contacted you that they will not move forward with your return offer with {{ companyName }}.`, 
-        `{{ companyName }}的HR发来邮件说你的return offer被撤回了. `]],
+        `{{ companyName }}的HR发来邮件说你的return offer被取消了. `]],
     [29, [`You received email from EECS department that they are going to hold a career fair this week!`, 
         `今天你收到了计算机学院群发的邮件, 说学院将在这周举办这个学期的招聘会`]],
     [30, [`You suited up and carries dozens of resume with you to join the career fair.
@@ -215,8 +215,12 @@ export const DESCRIPTION_TEXTS_MAP: Map<number, string[]> = new Map([
         which was wondering why your solution was almost the same with one of the solution exists on the internet.<br>
             {{ IF highStudy }}You explained to TA and showed them how to derive the result,<br>
             they seemed convinced by your explanation. However, that was a quite scary experience.
-            {{ ELSE }}Your explanation was feeble as you cannot give the correct answer when the question was slightly changed.<br>
-            The TA therefore gave you zero on this assignment and warned you if this happens ever again they will report to the dean's office.
+            {{ ELSE }}
+                {{ IF caughtCheat }}This is not the first time TA caught your cheating. And they have already warned you.<br>
+                So this time TA directly reported to the dean's office, the professor was supporting the TA.
+                {{ ELSE }}Your explanation was feeble as you cannot give the correct answer when the question was slightly changed.<br>
+                The TA therefore gave you zero on this assignment and warned you if this happens ever again they will report to the dean's office.
+                {{ FI }}
             {{ FI }}
         {{ FI }}`, 
         `你照抄了你找到的答案后交了作业, <br>
@@ -225,8 +229,11 @@ export const DESCRIPTION_TEXTS_MAP: Map<number, string[]> = new Map([
             {{ IF highStudy }}你早有准备, 找到助教并且现场演示了如何推出那些答案, <br>
             由于找不出破绽, 助教被迫相信了你的说辞. <br>
             不过这也是够吓人的了. 
-            {{ ELSE }}你那骗智障一样的说辞加深了助教的怀疑, 他跟你约了线下答疑时间让你澄清, 结果题目改个参数你就看不出来了, <br>
-            助教欣喜若狂的给了你作业零分, 并警告你如果再被发现抄作业答案, 他就去上报学院了. 
+            {{ ELSE }}
+                {{ IF caughtCheat }}这已经不是助教第一次抓到你作弊了, 他直接通报了学院, 随后教授也支持助教的通报.
+                {{ ELSE }}你那骗智障一样的说辞加深了助教的怀疑, 他跟你约了线下答疑时间让你澄清, 结果题目改个参数你就看不出来了, <br>
+                助教欣喜若狂的给了你作业零分, 并警告你如果再被发现抄作业答案, 他就去上报学院了. 
+                {{ FI }}
             {{ FI }}
         {{ FI }}`]],
     [38, [`During the presentation of one of the class this week, your teammate seems under prepared.<br>
@@ -417,9 +424,16 @@ export const DESCRIPTION_TEXTS_MAP: Map<number, string[]> = new Map([
         You posted long and colorful post accuse this school in LitterRatBook and 1Point4Acres.<br>
         But it cannot help you from being revoked from student visa and forced to go back home.`, 
         `尽管你向学校努力解释自已因其他重要原因而未能来参加期末,<br>
-        但学院依旧以你缺考为由给了你一个F, 并因此将你退学,<br>
+        但学院依旧以你缺考为由给了你一个F, 并因此将你开除,<br>
         这群脑满肠肥的官僚主义屌丝肯定是嫉妒你那缤纷多彩的校外生活才如此妨害你的美研CS项目.<br>
         你在如小薨书和一亩三坟地等平台上大发小作文痛批这个无良学校<br>
-        虽然你涨粉不少, 还接了商单, 但这改变不了你痛失F1身份只得收拾东西回国的现实.`]]
+        虽然你涨粉不少, 还接了商单, 但这改变不了你痛失F1身份只得收拾东西回国的现实.`]],
+    [505, [`The dean's office responded to TA's report in an incredibly fast manner.<br>
+        After fast desipite formally investigation, your plagiarism was verdicted.<br>
+        According to the rule of the collage, your are hereby forced dropped from the MSCS program.`, 
+        `学院以令人惊叹的高效处理了你的抄袭问题, 他们迅速而正式的展开了调查, 并裁定你的抄袭违反学院规定,<br>
+        你因此被开除出了该校的MSCS学院, 你的美研CS旅程也因此告一段落了.<br>
+        你在如小薨书和一亩三坟地等平台上大发小作文痛批这个无良学校<br>
+        虽然你涨粉不少, 还接了商单, 但这改变不了你痛失F1身份只得收拾东西回国的现实.`]],
     // Bad end events end.
 ]);

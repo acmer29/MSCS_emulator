@@ -1,5 +1,6 @@
 import { Player } from "../Player/Player";
 import { SimpleTemplateRender } from "../Utils/SimpleTemplateRender";
+import { DebugLogger } from "../Utils/UtilFns";
 import { Event } from "./Event";
 import { OPTION_MASK_MAP } from "./OptionsMaskMap";
 
@@ -18,7 +19,7 @@ export class EventDecorator {
         }
 
         if (OPTION_MASK_MAP.has(event.id)) {
-            console.log("masking the options");
+            DebugLogger("masking the options");
             renderedOptions = OPTION_MASK_MAP.get(event.id)!(renderedOptions, player);
         }
         event.options = renderedOptions;

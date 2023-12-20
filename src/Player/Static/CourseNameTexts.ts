@@ -3,7 +3,7 @@
 // Therefore the static texts has to be put into the code.
 
 export const COURSE_NAME_TEXTS: string[] = [
-    `Compute Architecture`,
+    `Computer Architecture`,
     `Design and Analysis of Algorithms`,
     `Principles of Operating Systems`,
     `Structured Programming and Formal Algorithm`,

@@ -29,4 +29,5 @@ export const GAME_OVER_EVENTS_MAP: Map<PlayerStatus, number> = new Map<PlayerSta
     [PlayerStatus.NO_OFFER, 503],
     [PlayerStatus.DIDNT_START, 500],
     [PlayerStatus.FINAL_ABSENT, 504],
+    [PlayerStatus.CAUGHT_CHEAT, 505],
 ]);

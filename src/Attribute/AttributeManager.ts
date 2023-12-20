@@ -3,6 +3,7 @@ import { Player } from "../Player/Player";
 import { Attribute } from "./Attribute";
 import { finalizeParameterDelta } from "./AttributeHelper";
 import { ATTRIBUTE_TEXT_MAP } from "./Static/AttributeTexts";
+import { DebugLogger } from "../Utils/UtilFns";
 
 export class AttributeManager {
     private _activatedAttribute: Attribute[];
@@ -26,25 +27,25 @@ export class AttributeManager {
     }
     
     getAttributeAffectOnParameter(type: string, delta: number, eventId: number | null): number {
-        console.log("Change parameter " + type + ", delta " + delta + ", event id " + eventId);
+        DebugLogger("Change parameter " + type + ", delta " + delta + ", event id " + eventId);
         if (eventId == null) return delta;
         let res: number = delta;
         for (let attribute of this._activatedAttribute) {
             if (TRIGGER_HANDLER_MAP.get(attribute.id)!(type, eventId)) {
-                // console.log("Attribute " + attribute.description + " triggered");
+                // DebugLogger("Attribute " + attribute.description + " triggered");
                 if (delta > 0) {
-                    // console.log("affecting buff map ");
-                    console.log(attribute.parameterBuffMap);
+                    // DebugLogger("affecting buff map ");
+                    DebugLogger(attribute.parameterBuffMap);
                     res += finalizeParameterDelta(delta, type, attribute.parameterBuffMap);
                 } else if (delta < 0) {
-                    // console.log("affecting debuff map ");
-                    console.log(attribute.parameterDebuffMap);
+                    // DebugLogger("affecting debuff map ");
+                    DebugLogger(attribute.parameterDebuffMap);
                     res += finalizeParameterDelta(delta, type, attribute.parameterDebuffMap);
                 }
-                // console.log("Corrected " + res);
+                // DebugLogger("Corrected " + res);
             }
         }
-        console.log("Finalized parameter " + type + " to " + res);
+        DebugLogger("Finalized parameter " + type + " to " + res);
         return res;
     }
 

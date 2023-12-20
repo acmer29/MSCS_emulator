@@ -9,9 +9,10 @@ export const COMPANY_NAME_TEXTS: string[] = [
     `LoopedIn`,
     `Appee`,
     `Nukevdia`,
-    `Orcale`,
+    `Orca`,
     `Frugal`,
-    `Yagoo`,
     `Airp2p`,
     `WeSuck`,
+    `ScamChat`,
+    `Noflix`,
 ];
