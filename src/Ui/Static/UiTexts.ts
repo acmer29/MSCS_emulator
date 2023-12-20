@@ -169,12 +169,12 @@ export function getUiRoundText(key: number, lang: LanguageFlag): string {
         }
 
         let year: string = "";
-        if (roundEngString.includes("Year I")) {
-            year = "第一年";
+        if (roundEngString.includes("Year III")) {
+            year = "第三年";
         } else if (roundEngString.includes("Year II")) {
             year = "第二年";
-        } else if (roundEngString.includes("Year III")) {
-            year = "第三年";
+        } else if (roundEngString.includes("Year II")) {
+            year = "第一年";
         }
 
         return semester + ", " + year + " " + month + period;
